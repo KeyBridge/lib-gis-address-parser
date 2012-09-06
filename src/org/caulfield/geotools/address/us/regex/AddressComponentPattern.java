@@ -1,22 +1,13 @@
 package org.caulfield.geotools.address.us.regex;
 
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.ADDR_UNIT;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.DIRECTIONS;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.ORDINAL_ALL;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.STREET_DESIGNATOR;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.TXT_NUM_0_9;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.TXT_NUM_10_19;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.TXT_ORDINAL_0_19;
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.US_STATES;
-import static org.caulfield.geotools.address.us.regex.RegexPatternFactory.compile;
+import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.*;
 import org.caulfield.geotools.address.us.regex.RegexPatternFactory.RegexPatternGroup;
+import static org.caulfield.geotools.address.us.regex.RegexPatternFactory.compile;
 
 /**
- * TODO javadocs me
+ * Regex patterns to match various address block components
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
 public class AddressComponentPattern {
 

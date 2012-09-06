@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.caulfield.geotools.address.us.enumerated.AddressComponent;
+import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.CityNameAlias;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
@@ -17,7 +17,6 @@ import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
  * <p/>
  * @TODO synonym resolutions for common city names
  * @author jesse
- * @author jliang
  */
 public class AddressFormatter {
 
@@ -28,134 +27,98 @@ public class AddressFormatter {
    * @param parsedAddr
    * @return
    */
-  public static String toSingleLine(Map<AddressComponent, String> parsedAddr) {
+  public static String toSingleLine(Map<AddressComponentKey, String> parsedAddr) {
     if (parsedAddr == null) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.NAME)), ", ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponent.NUMBER), " ");
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.PREDIR)), " ");
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.STREET)), " ");
-    if (parsedAddr.get(AddressComponent.STREET2) != null) {
-      appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.TYPE2)), " ");
-      appendIfNotNull(sb, parsedAddr.get(AddressComponent.POSTDIR2), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.NAME), ", ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.NUMBER), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.PREDIR), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STREET), " ");
+    if (parsedAddr.get(AddressComponentKey.STREET2) != null) {
+      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.TYPE2), " ");
+      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.POSTDIR2), " ");
       sb.append("& ");
-      appendIfNotNull(sb, parsedAddr.get(AddressComponent.PREDIR2), " ");
-      appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.STREET2)), " ");
+      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.PREDIR2), " ");
+      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STREET2), " ");
     }
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.TYPE)), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponent.POSTDIR), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.TYPE), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.POSTDIR), " ");
     if (StringUtils.isNotBlank(sb.toString())) {
       sb.append(", ");
     }
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.LINE2)), ", ");
-    appendIfNotNull(sb, toProperCase(parsedAddr.get(AddressComponent.CITY)), ", ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponent.STATE), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponent.ZIP), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.LINE2), ", ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.CITY), ", ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STATE), " ");
+    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.ZIP), " ");
 
     return sb.toString().replaceAll(" ,", ",");
   }
 
   /**
-   * Internal string builder method to append items only if they are not null.
-   * <p/>
-   * @param sb     the string builder (not null)
-   * @param s      the string under construction (not null)
-   * @param suffix the text to be appended (OK if null)
-   */
-  private static void appendIfNotNull(StringBuilder sb, String s, String suffix) {
-    if (s != null) {
-      sb.append(s).append(suffix);
-    }
-  }
-
-  /**
-   * Set a string to proper case - lower case with the first character
-   * uppercase. Credit to
-   * http://www.theeggeadventure.com/wikimedia/index.php/Java_Proper_Case
-   * <p/>
-   * @param string
-   * @return string formatted to proper case
-   */
-  public static String toProperCase(String string) {
-    if (string == null || string.isEmpty()) {
-      return null;
-    }
-    Pattern p = Pattern.compile("(^|\\W)([a-z])");
-    Matcher m = p.matcher(string.toLowerCase());
-    StringBuffer sb = new StringBuffer(string.length());
-    while (m.find()) {
-      m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase());
-    }
-    m.appendTail(sb);
-    return sb.toString();
-//    System.out.println("debug toProper " + string);
-//    return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
-  }
-
-  /**
-   * Normalize the input parsedAddr map into a standardize format
+   * Normalize the input parsedAddr map into standardized format
    * <p/>
    * @param parsedAddr
    * @return normalized address in a map
    */
-  public static Map<AddressComponent, String> normalizeParsedAddress(Map<AddressComponent, String> parsedAddr) {
-    Map<AddressComponent, String> ret = new EnumMap<AddressComponent, String>(AddressComponent.class);
+  public static Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
+    Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
     /**
      * Developer note: Just take the digits from the number component
      */
-    for (Map.Entry<AddressComponent, String> e : parsedAddr.entrySet()) {
+    for (Map.Entry<AddressComponentKey, String> e : parsedAddr.entrySet()) {
       String v = StringUtils.upperCase(e.getValue());
       switch (e.getKey()) {
         case PREDIR:
-          ret.put(AddressComponent.PREDIR, normalizeDir(v));
+          ret.put(AddressComponentKey.PREDIR, normalizeDirection(v));
           break;
         case POSTDIR:
-          ret.put(AddressComponent.POSTDIR, normalizeDir(v));
+          ret.put(AddressComponentKey.POSTDIR, normalizeDirection(v));
           break;
         case TYPE:
-          ret.put(AddressComponent.TYPE, normalizeStreetType(v));
+          ret.put(AddressComponentKey.TYPE, toProperCase(normalizeStreetType(v)));
           break;
         case PREDIR2:
-          ret.put(AddressComponent.PREDIR2, normalizeDir(v));
+          ret.put(AddressComponentKey.PREDIR2, normalizeDirection(v));
           break;
         case POSTDIR2:
-          ret.put(AddressComponent.POSTDIR2, normalizeDir(v));
+          ret.put(AddressComponentKey.POSTDIR2, normalizeDirection(v));
           break;
         case TYPE2:
-          ret.put(AddressComponent.TYPE2, normalizeStreetType(v));
+          ret.put(AddressComponentKey.TYPE2, toProperCase(normalizeStreetType(v)));
           break;
         case NUMBER:
-          ret.put(AddressComponent.NUMBER, normalizeNumber(v));
+          ret.put(AddressComponentKey.NUMBER, normalizeNumber(v));
           break;
         case STATE:
-          ret.put(AddressComponent.STATE, normalizeState(v));
+          ret.put(AddressComponentKey.STATE, normalizeState(v));
           break;
         case ZIP:
-          ret.put(AddressComponent.ZIP, normalizeZip(v));
+          ret.put(AddressComponentKey.ZIP, normalizeZip(v));
           break;
         case LINE2:
-          ret.put(AddressComponent.LINE2, normalizeLine2(v));
+          ret.put(AddressComponentKey.LINE2, toProperCase(normalizeLine2(v)));
           break;
         case CITY:
-          ret.put(AddressComponent.CITY, saintAbbrExpansion(v));
+          ret.put(AddressComponentKey.CITY, toProperCase(saintAbbrExpansion(v)));
           break;
         case STREET:
-          ret.put(AddressComponent.STREET, normalizeOrdinal(saintAbbrExpansion(v)));
+          ret.put(AddressComponentKey.STREET, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
           break;
         case STREET2:
-          ret.put(AddressComponent.STREET2, normalizeOrdinal(saintAbbrExpansion(v)));
+          ret.put(AddressComponentKey.STREET2, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
           break;
         default:
           ret.put(e.getKey(), v);
           break;
       }
     }
-    ret.put(AddressComponent.CITY, resolveCityAlias(ret.get(AddressComponent.CITY), ret.get(AddressComponent.STATE)));
+    ret.put(AddressComponentKey.CITY, resolveCityAlias(ret.get(AddressComponentKey.CITY), ret.get(AddressComponentKey.STATE)));
     return ret;
   }
 
+  //<editor-fold defaultstate="collapsed" desc="Private Formatting Methods">
   /**
    * Internal method to normalize a number entry
    * <p/>
@@ -198,7 +161,7 @@ public class AddressFormatter {
    * @param directionWord
    * @return
    */
-  private static String normalizeDir(String directionWord) {
+  private static String normalizeDirection(String directionWord) {
     if (directionWord == null || directionWord.isEmpty()) {
       return null;
     }
@@ -301,6 +264,43 @@ public class AddressFormatter {
   }
 
   /**
+   * Internal string builder method to append items only if they are not null.
+   * <p/>
+   * @param sb     the string builder (not null)
+   * @param s      the string under construction (not null)
+   * @param suffix the text to be appended (OK if null)
+   */
+  private static void appendIfNotNull(StringBuilder sb, String s, String suffix) {
+    if (s != null) {
+      sb.append(s).append(suffix);
+    }
+  }
+
+  /**
+   * Set a string to proper case - lower case with the first character
+   * uppercase. Credit to
+   * http://www.theeggeadventure.com/wikimedia/index.php/Java_Proper_Case
+   * <p/>
+   * @param string
+   * @return string formatted to proper case
+   */
+  public static String toProperCase(String string) {
+    if (string == null || string.isEmpty()) {
+      return null;
+    }
+    Pattern p = Pattern.compile("(^|\\W)([a-z])");
+    Matcher m = p.matcher(string.toLowerCase());
+    StringBuffer sb = new StringBuffer(string.length());
+    while (m.find()) {
+      m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase());
+    }
+    m.appendTail(sb);
+    return sb.toString();
+    //    System.out.println("debug toProper " + string);
+    //    return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+  }
+
+  /**
    * Method to return a non-null object instance. This method returns the first
    * object if it is not null, otherwise it returns the second object.
    * <p/>
@@ -309,7 +309,8 @@ public class AddressFormatter {
    * @param replacement the object to be returned if the first candidate is null
    * @return
    */
-  public static <T> T returnNotNull(T candidate, T replacement) {
+  private static <T> T returnNotNull(T candidate, T replacement) {
     return candidate == null ? replacement : candidate;
   }
+  //</editor-fold>
 }

@@ -1,26 +1,14 @@
 package org.caulfield.geotools.address.us.regex;
 
-import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.getDIRECTION;
-import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.getSTATE;
-import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.getSTREET_TYPE;
-import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.getADDRESS_UNIT;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 import org.apache.commons.lang.StringUtils;
+import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.*;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for
  * validating English: some common spelling mistakes are intentionally included
  * <p/>
  * @author jesse
- * @author jliang
  */
 public class NumberAndOrdinalPattern {
 

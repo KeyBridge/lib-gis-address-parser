@@ -18,7 +18,7 @@ package org.caulfield.geotools.address.us.test;
 import java.util.Map;
 import org.caulfield.geotools.address.us.AddressFormatter;
 import org.caulfield.geotools.address.us.AddressParser;
-import org.caulfield.geotools.address.us.enumerated.AddressComponent;
+import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 
 /**
  *
@@ -29,31 +29,28 @@ public class TEST_AddressParser {
   /**
    * @param args the command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     // TODO code application logic here
 
     System.out.println("TEST_AddressParser main");
 
-//    String addr1 = "123 6th street philadelphia pa";
-    String addr1 = "8000 towers    crescent drive, suite 1100, mclean, virginia  22102";
-    String addr2 = "123 Avenue of art, philadelphia pa, 12345";
-    Map<AddressComponent, String> m = AddressParser.parseAddress(addr1.toUpperCase());
+//    String addr1 = "123 6th street\nphiladelphia pa";
+    String addr1 = "8000 towers    crescent drive, suite 1100,\n mclean, virginia  22102";
+    Map<AddressComponentKey, String> m = AddressParser.parseAddress(addr1.toUpperCase());
 
     System.out.println("parsed");
-    for (AddressComponent addressComponent : m.keySet()) {
+    for (AddressComponentKey addressComponent : m.keySet()) {
       System.out.println(addressComponent.toString() + " : " + m.get(addressComponent));
     }
 
     System.out.println("\nnormalized");
-    Map<AddressComponent, String> foo = AddressFormatter.normalizeParsedAddress(m);
+    Map<AddressComponentKey, String> foo = AddressFormatter.normalizeParsedAddress(m);
 
-    for (AddressComponent addressComponent : foo.keySet()) {
+    for (AddressComponentKey addressComponent : foo.keySet()) {
       System.out.println(addressComponent.toString() + " : " + foo.get(addressComponent));
     }
     String addr = AddressFormatter.toSingleLine(foo);
     System.out.println("\n single line ");
     System.out.println(addr);
-
-    System.out.println("PROPER: " + AddressFormatter.toProperCase("this and that"));
   }
 }

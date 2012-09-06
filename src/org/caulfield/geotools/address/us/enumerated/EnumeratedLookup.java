@@ -9,8 +9,6 @@ import java.util.Map;
  * types, states, units, city names containing the prefix 'st', etc.
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
 public class EnumeratedLookup {
 

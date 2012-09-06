@@ -6,11 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * REGEX helper utilities. Not meant for general consumptions
+ * A REGEX pattern group factory builder. This class builds a REGEX pattern
+ * group and populates it with the correct compound pattern.
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
 public class RegexPatternFactory {
 

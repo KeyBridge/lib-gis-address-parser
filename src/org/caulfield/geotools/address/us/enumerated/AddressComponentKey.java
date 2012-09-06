@@ -1,13 +1,11 @@
 package org.caulfield.geotools.address.us.enumerated;
 
 /**
- * TODO javadocs me
+ * Enumerated list of address map keys.
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
-public enum AddressComponent {
+public enum AddressComponentKey {
 
   NAME, PREDIR, NUMBER, STREET, POSTDIR, TYPE, LINE2, CITY, STATE, ZIP,
   //intersections

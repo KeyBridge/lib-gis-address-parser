@@ -5,15 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.apache.commons.lang.StringUtils;
+import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 
 /**
  * Class to correct the spelling of a US state.
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
 public class StateSpellingCorrector {
 

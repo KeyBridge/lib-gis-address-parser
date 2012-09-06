@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
-import org.caulfield.geotools.address.us.enumerated.AddressComponent;
+import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.CityNameException;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
@@ -17,20 +17,19 @@ import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
  * Class to parse a free-text address into its components.
  * <p/>
  * @author jesse
- * @author jliang
- * <p/>
  */
 public class AddressParser {
 
   /**
-   * Remove extra white space from within the address: extra spaces, etc.
+   * Parses a raw address string, this delegates to
+   * {@linkplain AddressParser#parseAddress(String, boolean)} with
+   * autoCorrectStateSpelling set to false
    * <p/>
-   * @param rawAddrString
-   * @return
+   * @param rawAddr
+   * @return a map of parsed address components
    */
-  private static String getCleanSttring(String rawAddrString) {
-    Pattern CLEANUP = Pattern.compile("^\\W+|\\W+$|[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
-    return CLEANUP.matcher(rawAddrString).replaceAll(" ").replaceAll("\\s+", " ").trim();
+  public static Map<AddressComponentKey, String> parseAddress(String rawAddr) throws Exception {
+    return parseAddress(rawAddr, true);
   }
 
   /**
@@ -41,7 +40,10 @@ public class AddressParser {
    *                                 mis-spelling
    * @return a map of parsed address components
    */
-  public static Map<AddressComponent, String> parseAddress(String rawAddr, boolean autoCorrectStateSpelling) {
+  public static Map<AddressComponentKey, String> parseAddress(String rawAddr, boolean autoCorrectStateSpelling) throws Exception {
+    if (rawAddr == null || rawAddr.isEmpty()) {
+      throw new Exception("Address is empty or null");
+    }
     rawAddr = getCleanSttring(rawAddr);
     if (autoCorrectStateSpelling) {
       rawAddr = StateSpellingCorrector.correctStateSpelling(rawAddr);
@@ -51,22 +53,22 @@ public class AddressParser {
      */
     Pattern STREET_ADDRESS = Pattern.compile(AddressComponentPattern.P_STREET_ADDRESS.getRegex());
     Matcher m = STREET_ADDRESS.matcher(rawAddr);
-    Map<AddressComponent, String> ret = null;
+    Map<AddressComponentKey, String> ret = null;
     if (m.matches()) {
       ret = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
       postProcess(ret);
       String splitRawAddr = null;
-      String line12sep = ret.get(AddressComponent.TLID);//HACK!
+      String line12sep = ret.get(AddressComponentKey.TLID);//HACK!
       if (!line12sep.contains(",")
               && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr)) != null) {
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if (m.matches()) {
           ret = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
-          ret.remove(AddressComponent.TLID);//HACK!
+          ret.remove(AddressComponentKey.TLID);//HACK!
           return ret;
         }
       }
-      ret.remove(AddressComponent.TLID);//HACK!
+      ret.remove(AddressComponentKey.TLID);//HACK!
     }
     /**
      * Match the corner
@@ -94,38 +96,38 @@ public class AddressParser {
     return ret;
   }
 
+  //<editor-fold defaultstate="collapsed" desc="Private Parsing Methods">
   /**
-   * Parses a raw address string, this delegates to
-   * {@linkplain AddressParser#parseAddress(String, boolean)} with
-   * autoCorrectStateSpelling set to false
+   * Remove extra white space from within the address: extra spaces, etc.
    * <p/>
-   * @param rawAddr
-   * @return a map of parsed address components
+   * @param rawAddrString
+   * @return
    */
-  public static Map<AddressComponent, String> parseAddress(String rawAddr) {
-    return parseAddress(rawAddr, true);
+  private static String getCleanSttring(String rawAddrString) {
+    Pattern CLEANUP = Pattern.compile("^\\W+|\\W+$|[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
+    return CLEANUP.matcher(rawAddrString).replaceAll(" ").replaceAll("\\s+", " ").trim();
   }
 
-  private static void postProcess(Map<AddressComponent, String> m) {
+  private static void postProcess(Map<AddressComponentKey, String> m) {
     //these are (temporary?) hacks...
-    if (m.get(AddressComponent.TYPE) == null && m.get(AddressComponent.STREET) != null
-            && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponent.STREET).toUpperCase()).matches()) {
-      m.put(AddressComponent.TYPE, m.get(AddressComponent.STREET));
-      m.put(AddressComponent.STREET, m.get(AddressComponent.PREDIR));
-      m.put(AddressComponent.PREDIR, null);
+    if (m.get(AddressComponentKey.TYPE) == null && m.get(AddressComponentKey.STREET) != null
+            && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
+      m.put(AddressComponentKey.TYPE, m.get(AddressComponentKey.STREET));
+      m.put(AddressComponentKey.STREET, m.get(AddressComponentKey.PREDIR));
+      m.put(AddressComponentKey.PREDIR, null);
     }
-    if (m.get(AddressComponent.STATE) == null && m.get(AddressComponent.LINE2) != null
-            && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponent.LINE2).toUpperCase()).matches()) {
-      m.put(AddressComponent.STATE, m.get(AddressComponent.LINE2));
-      m.put(AddressComponent.LINE2, null);
+    if (m.get(AddressComponentKey.STATE) == null && m.get(AddressComponentKey.LINE2) != null
+            && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
+      m.put(AddressComponentKey.STATE, m.get(AddressComponentKey.LINE2));
+      m.put(AddressComponentKey.LINE2, null);
     }
   }
 
-  private static Map<AddressComponent, String> getAddrMap(Matcher m, Map<Integer, String> groupMap) {
-    Map<AddressComponent, String> ret = new EnumMap<AddressComponent, String>(AddressComponent.class);
+  private static Map<AddressComponentKey, String> getAddrMap(Matcher m, Map<Integer, String> groupMap) {
+    Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
     for (int i = 1; i <= m.groupCount(); i++) {
       String name = groupMap.get(i);
-      AddressComponent comp = AddressComponent.valueOf(name);
+      AddressComponentKey comp = AddressComponentKey.valueOf(name);
       if (ret.get(comp) == null) {
         putIfNotNull(ret, comp, m.group(i));
       }
@@ -133,16 +135,16 @@ public class AddressParser {
     return ret;
   }
 
-  private static void putIfNotNull(Map<AddressComponent, String> m, AddressComponent ac, String v) {
+  private static void putIfNotNull(Map<AddressComponentKey, String> m, AddressComponentKey ac, String v) {
     if (v != null) {
       m.put(ac, v);
     }
   }
 
-  private static String designatorConfusingCitiesCorrection(Map<AddressComponent, String> parsedLocation, String input) {
-    String street = parsedLocation.get(AddressComponent.STREET);
-    String type = parsedLocation.get(AddressComponent.TYPE);
-    String line2 = parsedLocation.get(AddressComponent.LINE2);
+  private static String designatorConfusingCitiesCorrection(Map<AddressComponentKey, String> parsedLocation, String input) {
+    String street = parsedLocation.get(AddressComponentKey.STREET);
+    String type = parsedLocation.get(AddressComponentKey.TYPE);
+    String line2 = parsedLocation.get(AddressComponentKey.LINE2);
     if (street == null || type == null || line2 != null || street.split(" ").length < 2) {
       return null;
     }
@@ -151,9 +153,9 @@ public class AddressParser {
      */
     Matcher m = Pattern.compile("\\b(?i:(?:" + NumberAndOrdinalPattern.STREET_DESIGNATOR + "))\\b").matcher(street);
     if (m.find()) {
-      String parsedstate = parsedLocation.get(AddressComponent.STATE);
+      String parsedstate = parsedLocation.get(AddressComponentKey.STATE);
       if (parsedstate == null) {
-        String parsedcity = parsedLocation.get(AddressComponent.CITY);
+        String parsedcity = parsedLocation.get(AddressComponentKey.CITY);
         if (parsedcity != null && parsedcity.length() == 2) {
           parsedstate = parsedcity;
         }
@@ -191,4 +193,5 @@ public class AddressParser {
     return null;
 
   }
+  //</editor-fold>
 }
