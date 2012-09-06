@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.CityNameException;
+import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
 import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
@@ -29,7 +30,7 @@ public class Parser {
    * @param rawAddr
    * @return a map of parsed address components
    */
-  public static Map<AddressComponentKey, String> parse(String rawAddr) throws Exception {
+  public Map<AddressComponentKey, String> parse(String rawAddr) throws Exception {
     return parse(rawAddr, true);
   }
 
@@ -41,13 +42,13 @@ public class Parser {
    *                                 mis-spelling
    * @return a map of parsed address components
    */
-  public static Map<AddressComponentKey, String> parse(String rawAddr, boolean autoCorrectStateSpelling) throws Exception {
+  public Map<AddressComponentKey, String> parse(String rawAddr, boolean autoCorrectStateSpelling) throws Exception {
     if (rawAddr == null || rawAddr.isEmpty()) {
       throw new Exception("Address is empty or null");
     }
     rawAddr = getCleanSttring(rawAddr);
     if (autoCorrectStateSpelling) {
-      rawAddr = StateSpellingCorrector.correctStateSpelling(rawAddr);
+      rawAddr = StateSpellingCorrector.nameToAbbreviation(rawAddr);
     }
     /**
      * Match the street address
@@ -104,12 +105,12 @@ public class Parser {
    * @param rawAddrString
    * @return
    */
-  private static String getCleanSttring(String rawAddrString) {
+  private String getCleanSttring(String rawAddrString) {
     Pattern CLEANUP = Pattern.compile("^\\W+|\\W+$|[\\s\\p{Punct}&&[^\\)\\(#&,:;@'`-]]");
     return CLEANUP.matcher(rawAddrString).replaceAll(" ").replaceAll("\\s+", " ").trim();
   }
 
-  private static void postProcess(Map<AddressComponentKey, String> m) {
+  private void postProcess(Map<AddressComponentKey, String> m) {
     //these are (temporary?) hacks...
     if (m.get(AddressComponentKey.TYPE) == null && m.get(AddressComponentKey.STREET) != null
             && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
@@ -124,7 +125,7 @@ public class Parser {
     }
   }
 
-  private static Map<AddressComponentKey, String> getAddrMap(Matcher m, Map<Integer, String> groupMap) {
+  private Map<AddressComponentKey, String> getAddrMap(Matcher m, Map<Integer, String> groupMap) {
     Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
     for (int i = 1; i <= m.groupCount(); i++) {
       String name = groupMap.get(i);
@@ -136,13 +137,13 @@ public class Parser {
     return ret;
   }
 
-  private static void putIfNotNull(Map<AddressComponentKey, String> m, AddressComponentKey ac, String v) {
+  private void putIfNotNull(Map<AddressComponentKey, String> m, AddressComponentKey ac, String v) {
     if (v != null) {
       m.put(ac, v);
     }
   }
 
-  private static String designatorConfusingCitiesCorrection(Map<AddressComponentKey, String> parsedLocation, String input) {
+  private String designatorConfusingCitiesCorrection(Map<AddressComponentKey, String> parsedLocation, String input) {
     String street = parsedLocation.get(AddressComponentKey.STREET);
     String type = parsedLocation.get(AddressComponentKey.TYPE);
     String line2 = parsedLocation.get(AddressComponentKey.LINE2);

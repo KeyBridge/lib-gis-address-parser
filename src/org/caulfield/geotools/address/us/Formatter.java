@@ -30,7 +30,7 @@ public class Formatter {
    *                         city field (see the pattern above).
    * @return a formatted address string
    */
-  public static String toFormattedAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean singleLine) {
+  public String toFormattedAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean singleLine) {
     if (parsedAddressMap == null) {
       return null;
     }
@@ -39,19 +39,25 @@ public class Formatter {
      */
     StringBuilder sb = new StringBuilder();
     /**
+     * If a multi-line address then include the name. Otherwise omit it.
+     */
+    if (!singleLine) {
+      appendIfNotNull(sb, toProperCase(parsedAddressMap.get(AddressComponentKey.NAME)) + "\n", "");
+    }
+    /**
      * Add the street address. Set the singleLine flag to false to ensure a
      * trailing comma is added to the line-2 element, if present.
      */
     sb.append(toStreetAddress(parsedAddressMap, true));
     /**
-     * Add a new line if desired
+     * Add a new line if desired. If single line then add a space since the toStreetAddress method trims its output.
      */
-    sb.append(singleLine ? "" : "\n");
+    sb.append(singleLine ? ", " : "\n");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.CITY), ", ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.STATE), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.ZIP), " ");
 
-    return sb.toString().replaceAll(" ,", ",");
+    return sb.toString().replaceAll(" ,", ",").trim();
   }
 
   /**
@@ -62,12 +68,11 @@ public class Formatter {
    *                         set to false if you only want the street address.
    * @return
    */
-  public static String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean appendComma) {
+  public String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean appendComma) {
     if (parsedAddressMap == null) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.NAME), ", ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.NUMBER), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.PREDIR), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.STREET), " ");
@@ -87,15 +92,15 @@ public class Formatter {
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.TYPE), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.POSTDIR), " ");
     /**
-     * If there is a street address and one-line format is desired then append a
-     * comma.
+     * If there is a street address plus a line-2 address and one-line format is
+     * desired then append a comma.
      */
-    if (StringUtils.isNotBlank(sb.toString())) {
+    if (StringUtils.isNotBlank(sb.toString()) && parsedAddressMap.get(AddressComponentKey.LINE2) != null) {
       sb.append(", ");
     }
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.LINE2), appendComma ? ", " : "");
 
-    return sb.toString().replaceAll(" ,", ",");
+    return sb.toString().replaceAll(" ,", ",").trim();
   }
 
   /**
@@ -104,7 +109,7 @@ public class Formatter {
    * @param parsedAddr
    * @return normalized address in a map
    */
-  public static Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
+  public Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
     Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
     /**
      * Developer note: Just take the digits from the number component
@@ -167,7 +172,7 @@ public class Formatter {
    * @param numberString number as string
    * @return
    */
-  private static String normalizeNumber(String numberString) {
+  private String normalizeNumber(String numberString) {
     if (numberString == null || numberString.isEmpty()) {
       return null;
     }
@@ -203,7 +208,7 @@ public class Formatter {
    * @param directionWord
    * @return
    */
-  private static String normalizeDirection(String directionWord) {
+  private String normalizeDirection(String directionWord) {
     if (directionWord == null || directionWord.isEmpty()) {
       return null;
     }
@@ -218,7 +223,7 @@ public class Formatter {
    * @param streetType
    * @return
    */
-  private static String normalizeStreetType(String streetType) {
+  private String normalizeStreetType(String streetType) {
     return returnNotNull(EnumeratedLookup.getSTREET_TYPE().get(streetType), streetType);
   }
 
@@ -238,7 +243,7 @@ public class Formatter {
    * @param line2
    * @return
    */
-  private static String normalizeLine2(String line2) {
+  private String normalizeLine2(String line2) {
     if (line2 == null || line2.isEmpty()) {
       return null;
     }
@@ -260,7 +265,7 @@ public class Formatter {
    * @param zipPlus4
    * @return 5-character zip code
    */
-  private static String normalizeZip(String zipPlus4) {
+  private String normalizeZip(String zipPlus4) {
     return StringUtils.length(zipPlus4) > 5 ? zipPlus4.substring(0, 5) : zipPlus4;
   }
 
@@ -272,7 +277,7 @@ public class Formatter {
    * @param state
    * @return
    */
-  private static String resolveCityAlias(String city, String state) {
+  private String resolveCityAlias(String city, String state) {
     return CityNameAlias.getRealCityName(city, state);
   }
 
@@ -282,7 +287,7 @@ public class Formatter {
    * @param cityName
    * @return
    */
-  private static String saintAbbrExpansion(String cityName) {
+  private String saintAbbrExpansion(String cityName) {
     String cityNameExpanded;
     if ((cityNameExpanded = EnumeratedLookup.getSAINT_CITY().get(cityName)) != null) {
       return cityNameExpanded;
@@ -296,7 +301,7 @@ public class Formatter {
    * @param ordinalWord
    * @return
    */
-  private static String normalizeOrdinal(String ordinalWord) {
+  private String normalizeOrdinal(String ordinalWord) {
     String ordinalNumber;
     if ((ordinalNumber = EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord)) != null) {
       return ordinalNumber;
@@ -311,7 +316,7 @@ public class Formatter {
    * @param s      the string under construction (not null)
    * @param suffix the text to be appended (OK if null)
    */
-  private static void appendIfNotNull(StringBuilder sb, String s, String suffix) {
+  private void appendIfNotNull(StringBuilder sb, String s, String suffix) {
     if (s != null) {
       sb.append(s).append(suffix);
     }
@@ -325,7 +330,7 @@ public class Formatter {
    * @param string
    * @return string formatted to proper case
    */
-  public static String toProperCase(String string) {
+  public String toProperCase(String string) {
     if (string == null || string.isEmpty()) {
       return null;
     }

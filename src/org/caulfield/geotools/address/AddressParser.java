@@ -28,6 +28,23 @@ import org.caulfield.wsif.enumerated.Enum_Country;
  */
 public class AddressParser {
 
+  private Formatter formatter;
+  private Parser parser;
+
+  public Formatter getFormatter() {
+    if (formatter == null) {
+      formatter = new Formatter();
+    }
+    return formatter;
+  }
+
+  public Parser getParser() {
+    if (parser == null) {
+      parser = new Parser();
+    }
+    return parser;
+  }
+
   /**
    * Clean up a WSIF address by parsing the contents and re-populating the WSIF
    * address fields. Returns a new object - does not edit the passed object.
@@ -37,12 +54,9 @@ public class AddressParser {
    * @throws Exception if the address is null or empty
    */
   public Address cleanUp(Address address) throws Exception {
-    if (address == null || !address.isUsable()) {
+    if (address == null || address.getAddressFormatted() == null || address.getAddressFormatted().isEmpty()) {
       throw new Exception("Address is not usable");
     }
-
-    System.out.println("debug clean up " + address.getAddressFormatted());
-
     return parse(address.getAddressFormatted());
   }
 
@@ -59,17 +73,11 @@ public class AddressParser {
     if (address == null || address.isEmpty()) {
       throw new Exception("Address is not usable");
     }
-
-    System.out.println("debug parse " + address);
-    Map<AddressComponentKey, String> p = Parser.parse(address);
-    for (AddressComponentKey addressComponent : p.keySet()) {
-      System.out.println(addressComponent.toString() + " : " + p.get(addressComponent));
-    }
     /**
      * Build a WSIF address based upon the normalized, parsed address
      * components.
      */
-    return buildAddress(Formatter.normalizeParsedAddress(Parser.parse(address)));
+    return buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(address)));
   }
 
   /**
@@ -81,12 +89,12 @@ public class AddressParser {
    */
   private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
     Address a = new Address();
-    a.setAddress(Formatter.toStreetAddress(parsedAddressMap, false));
+    a.setAddress(getFormatter().toStreetAddress(parsedAddressMap, false));
     a.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     a.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     a.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
     a.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
-    a.setAddressFormatted(Formatter.toFormattedAddress(parsedAddressMap, true));
+    a.setAddressFormatted(getFormatter().toFormattedAddress(parsedAddressMap, true));
     return a;
   }
 }

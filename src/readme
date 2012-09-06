@@ -1,5 +1,12 @@
++------------------------------------------------------------------------------+
+|                    Caulfield Address Parser Library                          |
++------------------------------------------------------------------------------+
+History:
+  09/06/12 - version 1.0 committed
+             parse raw, formatted output, WSIF interchange all working
 
-Caulfield Address Parser Library
++------------------------------------------------------------------------------+
+Background:
 
 This project is based upon jgeocoder, an attempt to build a Java Geocoder
 using the US Census Tiger database.
@@ -22,5 +29,14 @@ simplifies access to the parser via standard WSIF address objects.
 jgeocoder was released under the Apache license. This build preserves
 the same license.
 
+
++------------------------------------------------------------------------------+
 References:
-http://sourceforge.net/projects/jgeocoder/files/
+  http://sourceforge.net/projects/jgeocoder/files/
+
+
++------------------------------------------------------------------------------+
+Other address parser utilities:
+biggs
+  biggs is a small ruby gem/rails plugin for formatting postal addresses from over 60 countries.
+  https://github.com/yolk/biggs
