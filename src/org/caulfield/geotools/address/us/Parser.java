@@ -12,24 +12,25 @@ import org.caulfield.geotools.address.us.enumerated.CityNameException;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
 import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
+import org.caulfield.wsif.entity.Address;
 
 /**
  * Class to parse a free-text address into its components.
  * <p/>
  * @author jesse
  */
-public class AddressParser {
+public class Parser {
 
   /**
    * Parses a raw address string, this delegates to
-   * {@linkplain AddressParser#parseAddress(String, boolean)} with
-   * autoCorrectStateSpelling set to false
+   * {@linkplain Parser#parse(String, boolean)} with autoCorrectStateSpelling
+   * set to false
    * <p/>
    * @param rawAddr
    * @return a map of parsed address components
    */
-  public static Map<AddressComponentKey, String> parseAddress(String rawAddr) throws Exception {
-    return parseAddress(rawAddr, true);
+  public static Map<AddressComponentKey, String> parse(String rawAddr) throws Exception {
+    return parse(rawAddr, true);
   }
 
   /**
@@ -40,7 +41,7 @@ public class AddressParser {
    *                                 mis-spelling
    * @return a map of parsed address components
    */
-  public static Map<AddressComponentKey, String> parseAddress(String rawAddr, boolean autoCorrectStateSpelling) throws Exception {
+  public static Map<AddressComponentKey, String> parse(String rawAddr, boolean autoCorrectStateSpelling) throws Exception {
     if (rawAddr == null || rawAddr.isEmpty()) {
       throw new Exception("Address is empty or null");
     }
@@ -160,7 +161,7 @@ public class AddressParser {
           parsedstate = parsedcity;
         }
       }
-      String normalizedState = AddressFormatter.normalizeState(StringUtils.upperCase(parsedstate));
+      String normalizedState = Formatter.normalizeState(StringUtils.upperCase(parsedstate));
       String inputUpper = input.toUpperCase();
       String ret = null;
       Set<String> stateSet = new HashSet<String>();

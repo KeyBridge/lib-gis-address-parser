@@ -18,40 +18,82 @@ import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
  * @TODO synonym resolutions for common city names
  * @author jesse
  */
-public class AddressFormatter {
+public class Formatter {
 
   /**
-   * Convert a parsed address (map) into one a one-line address formatted as:
-   * {name, num predir street type postdir, line2, city, state, zip}
+   * Convert a parsed address (map) into one a one-line address formatted
+   * according to the following pattern: {name, num predir street type postdir,
+   * line2, city, state, zip}
    * <p/>
-   * @param parsedAddr
+   * @param parsedAddressMap a map of parsed address values
+   * @param singleLine       whether to insert a new line between the line2 and
+   *                         city field (see the pattern above).
+   * @return a formatted address string
+   */
+  public static String toFormattedAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean singleLine) {
+    if (parsedAddressMap == null) {
+      return null;
+    }
+    /**
+     * Initialize a new string builder and begin assembling the address.
+     */
+    StringBuilder sb = new StringBuilder();
+    /**
+     * Add the street address. Set the singleLine flag to false to ensure a
+     * trailing comma is added to the line-2 element, if present.
+     */
+    sb.append(toStreetAddress(parsedAddressMap, true));
+    /**
+     * Add a new line if desired
+     */
+    sb.append(singleLine ? "" : "\n");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.CITY), ", ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.STATE), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.ZIP), " ");
+
+    return sb.toString().replaceAll(" ,", ",");
+  }
+
+  /**
+   * Build a formatted street address from the parsedAddress map.
+   * <p/>
+   * @param parsedAddressMap a map of parsed address values
+   * @param appendComma      whether to append a comma after the line-2 element.
+   *                         set to false if you only want the street address.
    * @return
    */
-  public static String toSingleLine(Map<AddressComponentKey, String> parsedAddr) {
-    if (parsedAddr == null) {
+  public static String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean appendComma) {
+    if (parsedAddressMap == null) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.NAME), ", ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.NUMBER), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.PREDIR), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STREET), " ");
-    if (parsedAddr.get(AddressComponentKey.STREET2) != null) {
-      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.TYPE2), " ");
-      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.POSTDIR2), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.NAME), ", ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.NUMBER), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.PREDIR), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.STREET), " ");
+    /**
+     * Add the second address component (apt, suite, etc.)
+     */
+    if (parsedAddressMap.get(AddressComponentKey.STREET2) != null) {
+      appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.TYPE2), " ");
+      appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.POSTDIR2), " ");
       sb.append("& ");
-      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.PREDIR2), " ");
-      appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STREET2), " ");
+      appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.PREDIR2), " ");
+      appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.STREET2), " ");
     }
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.TYPE), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.POSTDIR), " ");
+    /**
+     * Add the direction
+     */
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.TYPE), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.POSTDIR), " ");
+    /**
+     * If there is a street address and one-line format is desired then append a
+     * comma.
+     */
     if (StringUtils.isNotBlank(sb.toString())) {
       sb.append(", ");
     }
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.LINE2), ", ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.CITY), ", ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.STATE), " ");
-    appendIfNotNull(sb, parsedAddr.get(AddressComponentKey.ZIP), " ");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.LINE2), appendComma ? ", " : "");
 
     return sb.toString().replaceAll(" ,", ",");
   }
@@ -234,7 +276,6 @@ public class AddressFormatter {
     return CityNameAlias.getRealCityName(city, state);
   }
 
-  //TODO: document this craziness
   /**
    * Expand a city name containing the prefix 'st' to the word 'saint'
    * <p/>
