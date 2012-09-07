@@ -21,6 +21,7 @@ import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
 import org.caulfield.wsif.enumerated.Enum_Country;
+import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
  *
@@ -57,6 +58,20 @@ public class AddressParser {
     if (address == null || address.getAddressFormatted() == null || address.getAddressFormatted().isEmpty()) {
       throw new Exception("Address is not usable");
     }
+    /**
+     * Do not parse PO BOX addresses. Instead just try to clean up the address
+     * line and normalize to 'P.O.
+     */
+    if (address.getAddress().toUpperCase().contains("BOX")) {
+      address.setAddress(Formatter.toProperCase(address.getAddress().
+              toUpperCase().
+              replace("POST OFFICE", "P.O.").
+              replace("P. O.", "P.O.").
+              replace("PO ", "P.O. ")).trim());
+      address.setCity(Formatter.toProperCase(address.getCity()));
+      address.setState(Enum_State_US.findBy2CharAbbreviation(address.getState()));
+      return address;
+    }
     return parse(address.getAddressFormatted());
   }
 
@@ -76,8 +91,21 @@ public class AddressParser {
     /**
      * Build a WSIF address based upon the normalized, parsed address
      * components.
+     * <p/>
+     * If all the address components cannot be parsed then discard the address.
+     * This is because the parser is somewhat fragile and may incorrectly assign
+     * city to street names, states to cities, etc. Requiring that all fields
+     * are present ensures that the address was more likely to be correctly
+     * parsed.
      */
-    return buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(address)));
+    Address addressNew = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(address)));
+    if (addressNew.getAddress() != null
+            && addressNew.getCity() != null
+            && addressNew.getState() != null
+            && addressNew.getPostalCode() != null) {
+      return addressNew;
+    }
+    throw new Exception("Address could not be successfully parsed");
   }
 
   /**
@@ -85,16 +113,16 @@ public class AddressParser {
    * map.
    * <p/>
    * @param parsedAddressMap
-   * @return a well formed WSIF address
+   * @return a non-null, well formed WSIF address
    */
   private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
-    Address a = new Address();
-    a.setAddress(getFormatter().toStreetAddress(parsedAddressMap, false));
-    a.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
-    a.setState(parsedAddressMap.get(AddressComponentKey.STATE));
-    a.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
-    a.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
-    a.setAddressFormatted(getFormatter().toFormattedAddress(parsedAddressMap, true));
-    return a;
+    Address address = new Address();
+    address.setAddress(getFormatter().toStreetAddress(parsedAddressMap));
+    address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
+    address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
+    address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
+    address.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
+//    a.setAddressFormatted(getFormatter().toFormattedAddress(parsedAddressMap, true));
+    return address;
   }
 }

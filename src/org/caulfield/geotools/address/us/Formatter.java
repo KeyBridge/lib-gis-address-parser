@@ -10,6 +10,7 @@ import org.caulfield.geotools.address.us.enumerated.CityNameAlias;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
+import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
  * Class to output well-formed, formated address strings from a parse address
@@ -48,9 +49,10 @@ public class Formatter {
      * Add the street address. Set the singleLine flag to false to ensure a
      * trailing comma is added to the line-2 element, if present.
      */
-    sb.append(toStreetAddress(parsedAddressMap, true));
+    sb.append(toStreetAddress(parsedAddressMap));
     /**
-     * Add a new line if desired. If single line then add a space since the toStreetAddress method trims its output.
+     * Add a new line if desired. If single line then add a space since the
+     * toStreetAddress method trims its output.
      */
     sb.append(singleLine ? ", " : "\n");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.CITY), ", ");
@@ -68,7 +70,7 @@ public class Formatter {
    *                         set to false if you only want the street address.
    * @return
    */
-  public String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap, boolean appendComma) {
+  public String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap) {
     if (parsedAddressMap == null) {
       return null;
     }
@@ -92,13 +94,12 @@ public class Formatter {
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.TYPE), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.POSTDIR), " ");
     /**
-     * If there is a street address plus a line-2 address and one-line format is
-     * desired then append a comma.
+     * Insert a comma between the first address and the second address
      */
     if (StringUtils.isNotBlank(sb.toString()) && parsedAddressMap.get(AddressComponentKey.LINE2) != null) {
       sb.append(", ");
     }
-    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.LINE2), appendComma ? ", " : "");
+    appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.LINE2), "");
 
     return sb.toString().replaceAll(" ,", ",").trim();
   }
@@ -111,6 +112,13 @@ public class Formatter {
    */
   public Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
     Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
+    /**
+     * Null check. If the address failed to parse then return an empty component
+     * map.
+     */
+    if (parsedAddr == null) {
+      return ret;
+    }
     /**
      * Developer note: Just take the digits from the number component
      */
@@ -330,7 +338,7 @@ public class Formatter {
    * @param string
    * @return string formatted to proper case
    */
-  public String toProperCase(String string) {
+  public static String toProperCase(String string) {
     if (string == null || string.isEmpty()) {
       return null;
     }
@@ -342,8 +350,6 @@ public class Formatter {
     }
     m.appendTail(sb);
     return sb.toString();
-    //    System.out.println("debug toProper " + string);
-    //    return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
   }
 
   /**

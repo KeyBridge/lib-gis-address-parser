@@ -22,6 +22,15 @@ import org.caulfield.wsif.entity.Address;
  */
 public class Parser {
 
+//  public Map<AddressComponentKey, String> parseStreet(String rawAddr) throws Exception {
+//    if (rawAddr == null || rawAddr.isEmpty()) {
+//      throw new Exception("Address is empty or null");
+//    }
+//    rawAddr = getCleanSttring(rawAddr);
+//    System.out.println("debug parseStreet " + rawAddr);
+//    return null;
+//  }
+
   /**
    * Parses a raw address string, this delegates to
    * {@linkplain Parser#parse(String, boolean)} with autoCorrectStateSpelling
