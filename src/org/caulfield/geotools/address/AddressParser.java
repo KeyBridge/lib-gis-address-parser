@@ -65,11 +65,13 @@ public class AddressParser {
     if (address.getAddress().toUpperCase().contains("BOX")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
               toUpperCase().
-              replace("POST OFFICE", "P.O.").
-              replace("P. O.", "P.O.").
-              replace("PO ", "P.O. ")).trim());
+              replace("PO ", "POST OFFICE ").
+              replace("P.O.", "POST OFFICE").
+              replace("P. O.", "POST OFFICE") //              replace("POST OFFICE", "P.O.")
+              ).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setState(Enum_State_US.findBy2CharAbbreviation(address.getState()));
+      address.setAddressFormatted(null);
       return address;
     }
     return parse(address.getAddressFormatted());

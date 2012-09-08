@@ -111,13 +111,13 @@ public class Formatter {
    * @return normalized address in a map
    */
   public Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
-    Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
+    Map<AddressComponentKey, String> addressComponentMap = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
     /**
      * Null check. If the address failed to parse then return an empty component
      * map.
      */
     if (parsedAddr == null) {
-      return ret;
+      return addressComponentMap;
     }
     /**
      * Developer note: Just take the digits from the number component
@@ -126,51 +126,51 @@ public class Formatter {
       String v = StringUtils.upperCase(e.getValue());
       switch (e.getKey()) {
         case PREDIR:
-          ret.put(AddressComponentKey.PREDIR, normalizeDirection(v));
+          addressComponentMap.put(AddressComponentKey.PREDIR, normalizeDirection(v));
           break;
         case POSTDIR:
-          ret.put(AddressComponentKey.POSTDIR, normalizeDirection(v));
+          addressComponentMap.put(AddressComponentKey.POSTDIR, normalizeDirection(v));
           break;
         case TYPE:
-          ret.put(AddressComponentKey.TYPE, toProperCase(normalizeStreetType(v)));
+          addressComponentMap.put(AddressComponentKey.TYPE, toProperCase(normalizeStreetType(v)));
           break;
         case PREDIR2:
-          ret.put(AddressComponentKey.PREDIR2, normalizeDirection(v));
+          addressComponentMap.put(AddressComponentKey.PREDIR2, normalizeDirection(v));
           break;
         case POSTDIR2:
-          ret.put(AddressComponentKey.POSTDIR2, normalizeDirection(v));
+          addressComponentMap.put(AddressComponentKey.POSTDIR2, normalizeDirection(v));
           break;
         case TYPE2:
-          ret.put(AddressComponentKey.TYPE2, toProperCase(normalizeStreetType(v)));
+          addressComponentMap.put(AddressComponentKey.TYPE2, toProperCase(normalizeStreetType(v)));
           break;
         case NUMBER:
-          ret.put(AddressComponentKey.NUMBER, normalizeNumber(v));
+          addressComponentMap.put(AddressComponentKey.NUMBER, normalizeNumber(v));
           break;
         case STATE:
-          ret.put(AddressComponentKey.STATE, normalizeState(v));
+          addressComponentMap.put(AddressComponentKey.STATE, normalizeState(v));
           break;
         case ZIP:
-          ret.put(AddressComponentKey.ZIP, normalizeZip(v));
+          addressComponentMap.put(AddressComponentKey.ZIP, normalizeZip(v));
           break;
         case LINE2:
-          ret.put(AddressComponentKey.LINE2, toProperCase(normalizeLine2(v)));
+          addressComponentMap.put(AddressComponentKey.LINE2, toProperCase(normalizeLine2(v)));
           break;
         case CITY:
-          ret.put(AddressComponentKey.CITY, toProperCase(saintAbbrExpansion(v)));
+          addressComponentMap.put(AddressComponentKey.CITY, toProperCase(saintAbbrExpansion(v)));
           break;
         case STREET:
-          ret.put(AddressComponentKey.STREET, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
+          addressComponentMap.put(AddressComponentKey.STREET, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
           break;
         case STREET2:
-          ret.put(AddressComponentKey.STREET2, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
+          addressComponentMap.put(AddressComponentKey.STREET2, toProperCase(normalizeOrdinal(saintAbbrExpansion(v))));
           break;
         default:
-          ret.put(e.getKey(), v);
+          addressComponentMap.put(e.getKey(), v);
           break;
       }
     }
-    ret.put(AddressComponentKey.CITY, resolveCityAlias(ret.get(AddressComponentKey.CITY), ret.get(AddressComponentKey.STATE)));
-    return ret;
+    addressComponentMap.put(AddressComponentKey.CITY, resolveCityAlias(addressComponentMap.get(AddressComponentKey.CITY), addressComponentMap.get(AddressComponentKey.STATE)));
+    return addressComponentMap;
   }
 
   //<editor-fold defaultstate="collapsed" desc="Private Formatting Methods">
