@@ -62,7 +62,7 @@ public class AddressParser {
      * Do not parse PO BOX addresses. Instead just try to clean up the address
      * line and normalize to 'P.O.
      */
-    if (address.getAddress().toUpperCase().contains("BOX")) {
+    if (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
               toUpperCase().
               replace("PO ", "POST OFFICE ").
@@ -80,7 +80,8 @@ public class AddressParser {
   /**
    * Convert a raw address string into a well-formed WSIF address object.
    * <p/>
-   * Valid only for US addresses. This method sets the country code to US.
+   * Valid only for US addresses. This method manually sets the country code to
+   * Enum_Country.UNITED_STATES_OF_AMERICA ('US').
    * <p/>
    * @param address
    * @return
@@ -124,7 +125,6 @@ public class AddressParser {
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
     address.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
-//    a.setAddressFormatted(getFormatter().toFormattedAddress(parsedAddressMap, true));
     return address;
   }
 }
