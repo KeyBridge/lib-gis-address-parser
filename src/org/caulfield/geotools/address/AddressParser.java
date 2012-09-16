@@ -59,21 +59,35 @@ public class AddressParser {
       throw new Exception("Address is not usable");
     }
     /**
+     * Only partially parse non-US addresses.
+     */
+    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(Enum_Country.findByIso2Code(address.getCountry()))) {
+      address.setAddress(Formatter.toProperCase(address.getAddress()));
+      address.setCity(Formatter.toProperCase(address.getCity()));
+      address.setCounty(Formatter.toProperCase(address.getCounty()));
+      address.setState(address.getState() == null ? null : address.getState().toUpperCase());
+      address.setPostalCode(address.getPostalCode() == null ? null : address.getPostalCode().toUpperCase());
+      address.setAddressFormatted(null);
+      return address;
+    }
+    /**
      * Do not parse PO BOX addresses. Instead just try to clean up the address
      * line and normalize to 'P.O.
      */
     if (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
-              toUpperCase().
-              replace("PO ", "POST OFFICE ").
-              replace("P.O.", "POST OFFICE").
-              replace("P. O.", "POST OFFICE") //              replace("POST OFFICE", "P.O.")
-              ).trim());
+        toUpperCase().
+        replace("PO ", "POST OFFICE ").
+        replace("P.O.", "POST OFFICE").
+        replace("P. O.", "POST OFFICE")).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setState(Enum_State_US.findBy2CharAbbreviation(address.getState()));
       address.setAddressFormatted(null);
       return address;
     }
+    /**
+     * The address is in the United States and is not a PO Box.
+     */
     return parse(address.getAddressFormatted());
   }
 
@@ -103,9 +117,9 @@ public class AddressParser {
      */
     Address addressNew = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(address)));
     if (addressNew.getAddress() != null
-            && addressNew.getCity() != null
-            && addressNew.getState() != null
-            && addressNew.getPostalCode() != null) {
+      && addressNew.getCity() != null
+      && addressNew.getState() != null
+      && addressNew.getPostalCode() != null) {
       return addressNew;
     }
     throw new Exception("Address could not be successfully parsed");
