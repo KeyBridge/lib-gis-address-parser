@@ -21,7 +21,6 @@ import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
 import org.caulfield.wsif.enumerated.Enum_Country;
-import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
  *
@@ -32,14 +31,14 @@ public class AddressParser {
   private Formatter formatter;
   private Parser parser;
 
-  public Formatter getFormatter() {
+  private Formatter getFormatter() {
     if (formatter == null) {
       formatter = new Formatter();
     }
     return formatter;
   }
 
-  public Parser getParser() {
+  private Parser getParser() {
     if (parser == null) {
       parser = new Parser();
     }
@@ -59,10 +58,21 @@ public class AddressParser {
       throw new Exception("Address is not usable");
     }
     /**
-     * Only partially parse non-US addresses.
+     * Do not parse non-US addresses or PO BOX addresses. Instead just try to
+     * clean up and reformat the address components.
      */
-    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(Enum_Country.findByIso2Code(address.getCountry()))) {
-      address.setAddress(Formatter.toProperCase(address.getAddress()));
+    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(Enum_Country.findByIso2Code(address.getCountry()))
+      || address.getAddress().toUpperCase().contains("BOX")) {
+      if (address.getAddress() != null) {
+        address.setAddress(Formatter.toProperCase(address.getAddress().
+          toUpperCase().
+          replace("PO ", "POST OFFICE ").
+          replace("P.O.", "POST OFFICE").
+          replace("P. O.", "POST OFFICE")).trim());
+      }
+      /**
+       * Clean up the Address fields.
+       */
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setCounty(Formatter.toProperCase(address.getCounty()));
       address.setState(address.getState() == null ? null : address.getState().toUpperCase());
@@ -71,22 +81,7 @@ public class AddressParser {
       return address;
     }
     /**
-     * Do not parse PO BOX addresses. Instead just try to clean up the address
-     * line and normalize to 'P.O.
-     */
-    if (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX")) {
-      address.setAddress(Formatter.toProperCase(address.getAddress().
-        toUpperCase().
-        replace("PO ", "POST OFFICE ").
-        replace("P.O.", "POST OFFICE").
-        replace("P. O.", "POST OFFICE")).trim());
-      address.setCity(Formatter.toProperCase(address.getCity()));
-      address.setState(Enum_State_US.findBy2CharAbbreviation(address.getState()));
-      address.setAddressFormatted(null);
-      return address;
-    }
-    /**
-     * The address is in the United States and is not a PO Box.
+     * The address is in the United States and is not a P.O. Box.
      */
     return parse(address.getAddressFormatted());
   }
@@ -138,7 +133,7 @@ public class AddressParser {
     address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
-    address.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
+    address.setCountryEnum(Enum_Country.UNITED_STATES_OF_AMERICA);
     return address;
   }
 }
