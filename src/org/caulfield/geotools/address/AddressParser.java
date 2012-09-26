@@ -92,13 +92,13 @@ public class AddressParser {
    * Valid only for US addresses. This method manually sets the country code to
    * Enum_Country.UNITED_STATES_OF_AMERICA ('US').
    * <p/>
-   * @param address
+   * @param addressRaw
    * @return
    * @throws Exception if the address is null or empty
    */
-  public Address parse(String address) throws Exception {
-    if (address == null || address.isEmpty()) {
-      throw new Exception("Address is not usable");
+  public Address parse(String addressRaw) throws Exception {
+    if (addressRaw == null || addressRaw.isEmpty()) {
+      throw new Exception("Provided raw address is empty or null");
     }
     /**
      * Build a WSIF address based upon the normalized, parsed address
@@ -110,14 +110,14 @@ public class AddressParser {
      * are present ensures that the address was more likely to be correctly
      * parsed.
      */
-    Address addressNew = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(address)));
-    if (addressNew.getAddress() != null
-      && addressNew.getCity() != null
-      && addressNew.getState() != null
-      && addressNew.getPostalCode() != null) {
-      return addressNew;
+    Address address = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(addressRaw)));
+    if (address.getAddress() != null
+      && address.getCity() != null
+      && address.getState() != null
+      && address.getPostalCode() != null) {
+      return address;
     }
-    throw new Exception("Address could not be successfully parsed");
+    throw new Exception("Address parsing could not produce a usable address");
   }
 
   /**
