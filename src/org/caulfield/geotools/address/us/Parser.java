@@ -20,14 +20,6 @@ import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
  */
 public class Parser {
 
-//  public Map<AddressComponentKey, String> parseStreet(String rawAddr) throws Exception {
-//    if (rawAddr == null || rawAddr.isEmpty()) {
-//      throw new Exception("Address is empty or null");
-//    }
-//    rawAddr = getCleanSttring(rawAddr);
-//    System.out.println("debug parseStreet " + rawAddr);
-//    return null;
-//  }
   /**
    * Parses a raw address string, this delegates to
    * {@linkplain Parser#parse(String, boolean)} with autoCorrectStateSpelling
@@ -61,47 +53,47 @@ public class Parser {
      */
     Pattern STREET_ADDRESS = Pattern.compile(AddressComponentPattern.P_STREET_ADDRESS.getRegex());
     Matcher m = STREET_ADDRESS.matcher(rawAddr);
-    Map<AddressComponentKey, String> ret = null;
+    Map<AddressComponentKey, String> addressComponentMap = null;
     if (m.matches()) {
-      ret = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
-      postProcess(ret);
+      addressComponentMap = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
+      postProcess(addressComponentMap);
       String splitRawAddr = null;
-      String line12sep = ret.get(AddressComponentKey.TLID);//HACK!
+      String line12sep = addressComponentMap.get(AddressComponentKey.TLID);//HACK!
       if (!line12sep.contains(",")
-        && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr)) != null) {
+        && (splitRawAddr = designatorConfusingCitiesCorrection(addressComponentMap, rawAddr)) != null) {
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if (m.matches()) {
-          ret = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
-          ret.remove(AddressComponentKey.TLID);//HACK!
-          return ret;
+          addressComponentMap = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
+          addressComponentMap.remove(AddressComponentKey.TLID);//HACK!
+          return addressComponentMap;
         }
       }
-      ret.remove(AddressComponentKey.TLID);//HACK!
+      addressComponentMap.remove(AddressComponentKey.TLID);//HACK!
     }
     /**
      * Match the corner
      */
     m = Pattern.compile(AddressComponentPattern.P_CORNER.getRegex()).matcher(rawAddr);
-    if (ret == null && m.find()) {
+    if (addressComponentMap == null && m.find()) {
       /**
        * Match an intersection
        */
       m = Pattern.compile(AddressComponentPattern.P_INTERSECTION.getRegex()).matcher(rawAddr);
       if (m.matches()) {
-        ret = getAddrMap(m, AddressComponentPattern.P_INTERSECTION.getNamedGroupMap());
+        addressComponentMap = getAddrMap(m, AddressComponentPattern.P_INTERSECTION.getNamedGroupMap());
       }
     }
 
-    if (ret == null) {
+    if (addressComponentMap == null) {
       /**
        * Match the last line
        */
       m = Pattern.compile(AddressComponentPattern.P_CSZ.getRegex()).matcher(rawAddr);
       if (m.matches()) {
-        ret = getAddrMap(m, AddressComponentPattern.P_CSZ.getNamedGroupMap());
+        addressComponentMap = getAddrMap(m, AddressComponentPattern.P_CSZ.getNamedGroupMap());
       }
     }
-    return ret;
+    return addressComponentMap;
   }
 
   //<editor-fold defaultstate="collapsed" desc="Private Parsing Methods">

@@ -64,24 +64,24 @@ public class TEST_AddressParser {
      */
 //    String addr1 = "Apple Computer, Inc. 1 Infinite Loop Cupertino Caifrnia 95014";
 //    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino California 95014"; // works
-    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino CA"; // works
+//    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino CA"; // works
 //    String addr1 = "8000 towers    crescent drive, suite 1100,\n mclean, virginia  22102";
-//    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
+    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
 
     TEST_AddressParser t = new TEST_AddressParser();
 
-    Map<AddressComponentKey, String> m = t.getParser().parse(addr1);
+    Map<AddressComponentKey, String> outMap = t.getParser().parse(addr1);
 
-    System.out.println("parsed");
-    for (AddressComponentKey addressComponent : m.keySet()) {
-      System.out.println(addressComponent.toString() + " : " + m.get(addressComponent));
+    System.out.println("Address output parsed ");
+    for (AddressComponentKey addressComponent : outMap.keySet()) {
+      System.out.println("   " + addressComponent.toString() + " : " + outMap.get(addressComponent));
     }
 
-    System.out.println("\nnormalized");
-    Map<AddressComponentKey, String> foo = t.getFormatter().normalizeParsedAddress(m);
+    System.out.println("\nAddress output normalized");
+    Map<AddressComponentKey, String> foo = t.getFormatter().normalizeParsedAddress(outMap);
 
     for (AddressComponentKey addressComponent : foo.keySet()) {
-      System.out.println(addressComponent.toString() + " : " + foo.get(addressComponent));
+      System.out.println("   " + addressComponent.toString() + " : " + foo.get(addressComponent));
     }
     System.out.println("\n double line ");
     System.out.println(t.getFormatter().toFormattedAddress(foo, false));
@@ -90,17 +90,20 @@ public class TEST_AddressParser {
     System.out.println(t.getFormatter().toFormattedAddress(foo, true));
 
     Address a = new Address();
-//    a.setAddress("8000 towers    crescent drive, suite 1100");
-//    a.setCity("mclean");
-//    a.setState("va");
-//    a.setPostalCode("22102");
+    a.setAddress("8000 towers    crescent drive, suite 1100");
+    a.setCity("mclean");
+    a.setState("va");
+    a.setPostalCode("22102");
     a.setCountryEnum(Enum_Country.UNITED_STATES_OF_AMERICA);
     a.setAddressFormatted(addr1);
 
     System.out.println("wsif\n" + a.getAddressFormatted());
 
+    System.out.println("TEST Address Parser ------------------------------------");
     AddressParser ap = new AddressParser();
     Address b = ap.cleanUp(a);
     System.out.println("From AddressParser: " + b);
+
+
   }
 }

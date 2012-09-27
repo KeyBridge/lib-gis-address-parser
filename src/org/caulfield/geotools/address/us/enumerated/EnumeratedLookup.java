@@ -213,22 +213,18 @@ public class EnumeratedLookup {
     STREET_TYPE.put("PKWAY", "PKY");
     STREET_TYPE.put("PKWYS", "PKY");
     STREET_TYPE.put("PKWY", "PKY");
-
-    STREET_TYPE.put("ROW", "ROW");
-    STREET_TYPE.put("RAMP", "RAMP");
-    STREET_TYPE.put("RUN", "RUN");
-    STREET_TYPE.put("RUE", "RUE");
+//    STREET_TYPE.put("ROW", "ROW");
+//    STREET_TYPE.put("RAMP", "RAMP");
+//    STREET_TYPE.put("RUN", "RUN");
+//    STREET_TYPE.put("RUE", "RUE");
     STREET_TYPE.put("MALL", "MAL");
-    STREET_TYPE.put("MART", "MART");
-    STREET_TYPE.put("PASS", "PASS");
+//    STREET_TYPE.put("MART", "MART");
+//    STREET_TYPE.put("PASS", "PASS");
     STREET_TYPE.put("WALKWAY", "WKWY");
-
     //?? What are these the abbrv of?
-    STREET_TYPE.put("GRD", "GRD"); //XXX:this is not garden is it?
-    STREET_TYPE.put("THWY", "THWY"); // throughway
-    STREET_TYPE.put("UNP", "UNP");
-
-    //7/25/08
+//    STREET_TYPE.put("GRD", "GRD"); //XXX:this is not garden is it?
+//    STREET_TYPE.put("THWY", "THWY"); // throughway
+//    STREET_TYPE.put("UNP", "UNP");
     STREET_TYPE.put("ALLEE", "ALY");
     STREET_TYPE.put("ALLEY", "ALY");
     STREET_TYPE.put("ALLY", "ALY");
@@ -466,9 +462,9 @@ public class EnumeratedLookup {
     STREET_TYPE.put("PINE", "PNE");
     STREET_TYPE.put("PINES", "PNES");
     STREET_TYPE.put("PK", "PARK");
-//    STREET_TYPE_MAP.put("PKWAY", "PKWY");
-//    STREET_TYPE_MAP.put("PKWYS", "PKWY");
-//    STREET_TYPE_MAP.put("PKY", "PKWY");
+    STREET_TYPE.put("PKWAY", "PKWY");
+    STREET_TYPE.put("PKWYS", "PKWY");
+    STREET_TYPE.put("PKY", "PKWY");
     STREET_TYPE.put("PLACE", "PL");
     STREET_TYPE.put("PLAIN", "PLN");
     STREET_TYPE.put("PLAINES", "PLNS");
