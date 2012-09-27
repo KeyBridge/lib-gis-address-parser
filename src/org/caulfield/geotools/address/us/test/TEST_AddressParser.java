@@ -21,6 +21,7 @@ import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
+import org.caulfield.wsif.enumerated.Enum_Country;
 import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
@@ -62,7 +63,8 @@ public class TEST_AddressParser {
      * The following example fails on a mis-spelled state and comma in the name
      */
 //    String addr1 = "Apple Computer, Inc. 1 Infinite Loop Cupertino Caifrnia 95014";
-    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino California 95014"; // works
+//    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino California 95014"; // works
+    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino CA"; // works
 //    String addr1 = "8000 towers    crescent drive, suite 1100,\n mclean, virginia  22102";
 //    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
 
@@ -92,12 +94,13 @@ public class TEST_AddressParser {
 //    a.setCity("mclean");
 //    a.setState("va");
 //    a.setPostalCode("22102");
+    a.setCountryEnum(Enum_Country.UNITED_STATES_OF_AMERICA);
     a.setAddressFormatted(addr1);
 
     System.out.println("wsif\n" + a.getAddressFormatted());
 
     AddressParser ap = new AddressParser();
     Address b = ap.cleanUp(a);
-    System.out.println("Cleaned up " + b);
+    System.out.println("From AddressParser: " + b);
   }
 }

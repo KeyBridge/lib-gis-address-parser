@@ -15,12 +15,12 @@ public class CityNameAlias {
   private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<String, Map<String, String>>();
 
   static {
-    BufferedReader br = null;
+    BufferedReader bufferedReader = null;
     try {
-      br = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
+      bufferedReader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
       String line;
       Map<String, Set<String>> allRealCitiesMap = new HashMap<String, Set<String>>();
-      while ((line = br.readLine()) != null) {
+      while ((line = bufferedReader.readLine()) != null) {
         String[] items = line.split("\\s*=\\s*");
         String[] cs = items[0].split("<b>")[1].split("\\s*,\\s*");
         String city = cs[0], state = cs[1];
@@ -51,9 +51,9 @@ public class CityNameAlias {
     } catch (IOException e) {
       throw new Error("Unable to initalize City Alias Resolver", e);
     } finally {
-      if (br != null) {
+      if (bufferedReader != null) {
         try {
-          br.close();
+          bufferedReader.close();
         } catch (IOException e) {
         }
       }

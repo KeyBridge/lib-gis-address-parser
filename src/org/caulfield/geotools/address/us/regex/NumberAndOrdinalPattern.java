@@ -2,7 +2,8 @@ package org.caulfield.geotools.address.us.regex;
 
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
-import static org.caulfield.geotools.address.us.enumerated.EnumeratedLookup.*;
+import org.caulfield.geotools.address.us.enumerated.Enum_Country;
+import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for
@@ -36,6 +37,7 @@ public class NumberAndOrdinalPattern {
   public static final String US_STATES = UsAddressesData.getStateRegex();
   public static final String DIRECTIONS = UsAddressesData.getDirectionRegex();
   public static final String ADDR_UNIT = UsAddressesData.getUnitDesignatorRegex();
+//  public static final String COUNTRIES = UsAddressesData.getCountryIso2Regex();
 
   /**
    * Address Data for United States Components
@@ -44,19 +46,24 @@ public class NumberAndOrdinalPattern {
 
     public static String getDirectionRegex() {
       String abbrv = "N[ ]?E|S[ ]?E|S[ ]?W|N[ ]?W|N|S|E|W";
-      return join("|", getDIRECTION().keySet()) + "|" + abbrv;
+      return join("|", EnumeratedLookup.getDIRECTION().keySet()) + "|" + abbrv;
     }
 
     public static String getStateRegex() {
-      return join("|", getSTATE().values(), getSTATE().keySet());
+      return join("|", EnumeratedLookup.getSTATE().values(), EnumeratedLookup.getSTATE().keySet());
+    }
+
+    public static String getCountryIso2Regex() {
+      Map<String, String> countryMap = Enum_Country.getAsHashMap();
+      return join("|", countryMap.values(), countryMap.keySet());
     }
 
     public static String getStreetDesignatorRegex() {
-      return join("|", getSTREET_TYPE().values(), getSTREET_TYPE().keySet());
+      return join("|", EnumeratedLookup.getSTREET_TYPE().values(), EnumeratedLookup.getSTREET_TYPE().keySet());
     }
 
     public static String getUnitDesignatorRegex() {
-      return join("|", getADDRESS_UNIT().values(), getADDRESS_UNIT().keySet());
+      return join("|", EnumeratedLookup.getADDRESS_UNIT().values(), EnumeratedLookup.getADDRESS_UNIT().keySet());
     }
 
     private static String join(String separator, Collection<String>... collections) {

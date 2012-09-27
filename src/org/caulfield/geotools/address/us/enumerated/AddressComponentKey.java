@@ -11,5 +11,5 @@ public enum AddressComponentKey {
   //intersections
   PREDIR2, STREET2, POSTDIR2, TYPE2,
   //geocode populated
-  LAT, LON, COUNTY, TLID
+  LAT, LON, COUNTY, TLID;
 }

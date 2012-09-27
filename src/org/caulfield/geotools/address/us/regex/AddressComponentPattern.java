@@ -1,7 +1,8 @@
 package org.caulfield.geotools.address.us.regex;
 
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.*;
 import org.caulfield.geotools.address.us.regex.RegexPatternFactory.RegexPatternGroup;
+
+import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.*;
 import static org.caulfield.geotools.address.us.regex.RegexPatternFactory.compile;
 
 /**
@@ -31,6 +32,7 @@ public class AddressComponentPattern {
    */
   private static final String UNIT_NUMBER = "(?:\\b\\p{Alpha}{1}\\s+|\\p{Alpha}*[-/]?)?(?:\\d+|\\b\\p{Alpha}\\b(?=\\s|$))(?:[ ]*\\p{Alpha}\\b|-\\w+)?";
   private static final String ZIP = "\\d{5}(?:[- ]\\d{3,4})?";
+//  private static final String COUNTRY = "\\d{5}(?:[- ]\\d{3,4})?";
   private static final String NOT_STATE_OR_ZIP = "(?![^,]*\\W+(?:\\b(?:" + US_STATES + ")\\b(?:\\W*$|(?:" + ZIP + ")\\W*$))|(?:\\b(?:" + ZIP + ")\\b\\W*$))";
   private static final String LINE2A = "(?:" + ADDR_UNIT + ")[s]?\\W*?(?:" + UNIT_NUMBER + ")";
   public static final String LINE2A_GROUPED = "(" + ADDR_UNIT + ")[s]?\\W*?(" + UNIT_NUMBER + ")";
@@ -39,6 +41,7 @@ public class AddressComponentPattern {
   /**
    * City, State, Zip
    */
+//  private static final String LASTLINE = "(?:(?P<city>[^\\d,]+?)\\W+\\b(?P<state>(?:" + US_STATES + ")\\b)?\\W*)?(?P<zip>" + ZIP + ")?(?P<country>(?:"+COUNTRIES+"))?";
   private static final String LASTLINE = "(?:(?P<city>[^\\d,]+?)\\W+\\b(?P<state>(?:" + US_STATES + ")\\b)?\\W*)?(?P<zip>" + ZIP + ")?";
   private static final String STREET_ADDRESS = ADDR_NAME + LINE1 + "(?P<tlid>\\W+)" + LINE2 + LASTLINE + "\\W*"; //the group name is a hack
   private static final String CORNER = "(?:\\band\\b|\\bat\\b|&|\\@)";

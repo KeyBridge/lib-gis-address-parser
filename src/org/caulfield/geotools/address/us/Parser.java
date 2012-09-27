@@ -9,11 +9,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.CityNameException;
-import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
 import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
-import org.caulfield.wsif.entity.Address;
 
 /**
  * Class to parse a free-text address into its components.
@@ -30,7 +28,6 @@ public class Parser {
 //    System.out.println("debug parseStreet " + rawAddr);
 //    return null;
 //  }
-
   /**
    * Parses a raw address string, this delegates to
    * {@linkplain Parser#parse(String, boolean)} with autoCorrectStateSpelling
@@ -71,7 +68,7 @@ public class Parser {
       String splitRawAddr = null;
       String line12sep = ret.get(AddressComponentKey.TLID);//HACK!
       if (!line12sep.contains(",")
-              && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr)) != null) {
+        && (splitRawAddr = designatorConfusingCitiesCorrection(ret, rawAddr)) != null) {
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if (m.matches()) {
           ret = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
@@ -122,13 +119,13 @@ public class Parser {
   private void postProcess(Map<AddressComponentKey, String> m) {
     //these are (temporary?) hacks...
     if (m.get(AddressComponentKey.TYPE) == null && m.get(AddressComponentKey.STREET) != null
-            && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
+      && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
       m.put(AddressComponentKey.TYPE, m.get(AddressComponentKey.STREET));
       m.put(AddressComponentKey.STREET, m.get(AddressComponentKey.PREDIR));
       m.put(AddressComponentKey.PREDIR, null);
     }
     if (m.get(AddressComponentKey.STATE) == null && m.get(AddressComponentKey.LINE2) != null
-            && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
+      && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
       m.put(AddressComponentKey.STATE, m.get(AddressComponentKey.LINE2));
       m.put(AddressComponentKey.LINE2, null);
     }
@@ -186,7 +183,7 @@ public class Parser {
       int stateIdx = parsedstate == null ? input.length() : input.lastIndexOf(parsedstate);
       for (String state : stateSet) {
         for (String s : CityNameException.C_MAP.get(state)) {
-          int idx = -1;
+          int idx;
           if ((idx = inputUpper.lastIndexOf(s)) != -1) {
             /**
              * If the input has one of the city names that can confuse the

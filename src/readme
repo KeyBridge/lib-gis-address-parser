@@ -12,19 +12,20 @@ This project is based upon jgeocoder, an attempt to build a Java Geocoder
 using the US Census Tiger database.
 
 Credit for jgeocoder goes to zl25-drexel (whomever that is). For context,
-zl25-drexel also built the Geo-Google - Address Standardizer, a web client
+zl25-drexel also built the "Geo-Google - Address Standardizer", a web client
 that provides the same (or similar) functionality.
 
 jgeocoder was created 2008-04-03 and appears to have been abandoned shortly
-therafter. No updates have been made since the last SVN commit in July 2008.
+thereafter. No updates have been made since the last SVN commit in July 2008.
 A similar project with the same source code was posted to github under another
 author in 2009.
 
 jgeocoder itself was modeled after the PERL CPAN Geo::Coder::US module.
 
-This build organizes classes into a logical heirarchy, renames
-many classes, adds documentation to classes and methods, and
-simplifies access to the parser via standard WSIF address objects.
+This code fork reorganizes classes into a logical hierarchy, renames
+many classes according to their logical function, adds and improves class
+and method documentation, and simplifies access to the parser via standard
+a WSIF-aware wrapper class named "AddressParser".
 
 jgeocoder was released under the Apache license. This build preserves
 the same license.

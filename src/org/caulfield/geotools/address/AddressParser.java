@@ -62,17 +62,12 @@ public class AddressParser {
      * clean up and reformat the address components.
      */
     if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(Enum_Country.findByIso2Code(address.getCountry()))
-      || address.getAddress().toUpperCase().contains("BOX")) {
-      if (address.getAddress() != null) {
-        address.setAddress(Formatter.toProperCase(address.getAddress().
-          toUpperCase().
-          replace("PO ", "POST OFFICE ").
-          replace("P.O.", "POST OFFICE").
-          replace("P. O.", "POST OFFICE")).trim());
-      }
-      /**
-       * Clean up the Address fields.
-       */
+      || (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX"))) {
+      address.setAddress(Formatter.toProperCase(address.getAddress().
+        toUpperCase().
+        replace("PO ", "POST OFFICE ").
+        replace("P.O.", "POST OFFICE").
+        replace("P. O.", "POST OFFICE")).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setCounty(Formatter.toProperCase(address.getCounty()));
       address.setState(address.getState() == null ? null : address.getState().toUpperCase());
@@ -109,12 +104,15 @@ public class AddressParser {
      * city to street names, states to cities, etc. Requiring that all fields
      * are present ensures that the address was more likely to be correctly
      * parsed.
+     * <p/>
+     * The zip code is rarely misidentified and so is not required here. Also,
+     * FCC ULS records do not provide a postal code, so not requiring one here
+     * allows those addresses to be cleaned up and a postal code added later.
      */
     Address address = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(addressRaw)));
     if (address.getAddress() != null
       && address.getCity() != null
-      && address.getState() != null
-      && address.getPostalCode() != null) {
+      && address.getState() != null) {
       return address;
     }
     throw new Exception("Address parsing could not produce a usable address");
