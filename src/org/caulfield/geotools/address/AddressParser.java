@@ -54,7 +54,7 @@ public class AddressParser {
    * @throws Exception if the address is null or empty
    */
   public Address cleanUp(Address address) throws Exception {
-    if (address == null || address.getAddressFormatted() == null || address.getAddressFormatted().isEmpty()) {
+    if (address == null || !address.isUsable()) {
       throw new Exception("Address is not usable");
     }
     /**

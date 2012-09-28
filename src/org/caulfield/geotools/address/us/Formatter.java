@@ -10,7 +10,6 @@ import org.caulfield.geotools.address.us.enumerated.CityNameAlias;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
-import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
  * Class to output well-formed, formated address strings from a parse address
