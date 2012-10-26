@@ -22,7 +22,6 @@ import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
 import org.caulfield.wsif.enumerated.Enum_Country;
-import org.caulfield.wsif.enumerated.Enum_State_US;
 
 /**
  * Test harness to exercise the Parser, Formatter and AddressParse classes.
@@ -66,7 +65,10 @@ public class TEST_AddressParser {
 //    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino California 95014"; // works
 //    String addr1 = "Apple Computer Inc. 1 Infinite Loop Cupertino CA"; // works
 //    String addr1 = "8000 towers    crescent drive, suite 1100,\n mclean, virginia  22102";
-    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
+//    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
+    String addr1 = "8000 Towers Crescent Drive, Suite 1100, HILTON HEAD ISLAND, SC 22102";
+
+
 
     TEST_AddressParser t = new TEST_AddressParser();
 

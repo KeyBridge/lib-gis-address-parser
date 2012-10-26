@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.geotools.address.us.enumerated.CityNameException;
+import org.caulfield.geotools.address.us.enumerated.CityNameSpecialCase;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
 import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
@@ -170,11 +170,11 @@ public class Parser {
         /**
          * if no state hat been found this needs to work much harder
          */
-        stateSet.addAll(CityNameException.C_MAP.keySet());
+        stateSet.addAll(CityNameSpecialCase.C_MAP.keySet());
       }
       int stateIdx = parsedstate == null ? input.length() : input.lastIndexOf(parsedstate);
       for (String state : stateSet) {
-        for (String s : CityNameException.C_MAP.get(state)) {
+        for (String s : CityNameSpecialCase.C_MAP.get(state)) {
           int idx;
           if ((idx = inputUpper.lastIndexOf(s)) != -1) {
             /**

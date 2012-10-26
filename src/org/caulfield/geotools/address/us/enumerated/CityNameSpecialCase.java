@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class CityNameException {
+public class CityNameSpecialCase {
 
   public static final Map<String, List<String>> C_MAP = new HashMap<String, List<String>>();
 
@@ -14,27 +14,26 @@ public class CityNameException {
     try {
       r = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("exception_city.txt")));
       String line;
-      Map<String, Set<String>> tmp = new HashMap<String, Set<String>>();
+      /**
+       * Read and parse each line into an array of alternate city names. Lines
+       * are formatted thus:
+       * <p/>
+       * NY -> WATKINS GLEN|CENTRAL BRIDGE|HOAG CORNERS|BEMIS HEIGHTS|ONTARIO ..
+       */
       while ((line = r.readLine()) != null) {
+        /**
+         * Strip the state from the city names.
+         */
         String[] items = line.split("\\s*->\\s*");
-        String[] cities = items[1].split("[|]");
         String state = items[0];
-        Set<String> set = tmp.get(state);
-        if (set == null) {
-          set = new HashSet<String>();
-          tmp.put(state, set);
-        }
-        set.addAll(Arrays.asList(cities));
-      }
-      for (Map.Entry<String, Set<String>> e : tmp.entrySet()) {
-        String[] array = e.getValue().toArray(new String[]{});
-        Arrays.sort(array, new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            return Integer.valueOf(o2.length()).compareTo(o1.length());
-          }
-        });
-        C_MAP.put(e.getKey(), Arrays.asList(array));
+        /**
+         * Split the city names into an array.
+         */
+        String[] cities = items[1].split("[|]");
+        /**
+         * Set the city map for the selected state.
+         */
+        C_MAP.put(state, Arrays.asList(cities));
       }
     } catch (Exception e) {
       throw new Error("Unable to initalize exception_city", e);
