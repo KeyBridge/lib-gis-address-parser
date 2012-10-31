@@ -20,7 +20,7 @@ import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
-import org.caulfield.wsif.enumerated.Enum_Country;
+import org.caulfield.wsif.enumerated.reference.Enum_Country;
 
 /**
  *
