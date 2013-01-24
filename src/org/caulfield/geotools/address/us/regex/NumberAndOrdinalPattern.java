@@ -2,8 +2,8 @@ package org.caulfield.geotools.address.us.regex;
 
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
-import org.caulfield.geotools.address.us.enumerated.Enum_Country;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
+import org.caulfield.wsif.enumerated.reference.Enum_Country;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for
@@ -54,7 +54,15 @@ public class NumberAndOrdinalPattern {
     }
 
     public static String getCountryIso2Regex() {
-      Map<String, String> countryMap = Enum_Country.getAsHashMap();
+      /**
+       * Get the list of countries as a HashMap of Key:CountryName, Value:Iso2
+       * <p/>
+       * @return
+       */
+      Map<String, String> countryMap = new HashMap<String, String>();
+      for (Enum_Country country : Enum_Country.values()) {
+        countryMap.put(country.getIso2(), country.getDescription());
+      }
       return join("|", countryMap.values(), countryMap.keySet());
     }
 
