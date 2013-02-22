@@ -96,7 +96,7 @@ public class TEST_AddressParser {
     a.setCity("mclean");
     a.setState("va");
     a.setPostalCode("22102");
-    a.setCountryEnum(Enum_Country.UNITED_STATES_OF_AMERICA);
+    a.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
     a.setAddressFormatted(addr1);
 
     System.out.println("wsif\n" + a.getAddressFormatted());

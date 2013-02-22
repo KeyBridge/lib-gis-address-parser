@@ -61,7 +61,7 @@ public class AddressParser {
      * Do not parse non-US addresses or PO BOX addresses. Instead just try to
      * clean up and reformat the address components.
      */
-    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(Enum_Country.findByIso2Code(address.getCountry()))
+    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(address.getCountry())
       || (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX"))) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
         toUpperCase().
@@ -131,7 +131,7 @@ public class AddressParser {
     address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
-    address.setCountryEnum(Enum_Country.UNITED_STATES_OF_AMERICA);
+    address.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
     return address;
   }
 }
