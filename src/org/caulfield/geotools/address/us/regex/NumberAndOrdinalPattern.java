@@ -1,7 +1,7 @@
 package org.caulfield.geotools.address.us.regex;
 
 import java.util.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.wsif.enumerated.reference.Enum_Country;
 

@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.CityNameAlias;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
