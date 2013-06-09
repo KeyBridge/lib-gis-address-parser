@@ -97,7 +97,6 @@ public class TEST_AddressParser {
     a.setState("va");
     a.setPostalCode("22102");
     a.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
-    a.setAddressFormatted(addr1);
 
     System.out.println("wsif\n" + a.getAddressFormatted());
 

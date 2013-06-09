@@ -72,7 +72,6 @@ public class AddressParser {
       address.setCounty(Formatter.toProperCase(address.getCounty()));
       address.setState(address.getState() == null ? null : address.getState().toUpperCase());
       address.setPostalCode(address.getPostalCode() == null ? null : address.getPostalCode().toUpperCase());
-      address.setAddressFormatted(null);
       return address;
     }
     /**
