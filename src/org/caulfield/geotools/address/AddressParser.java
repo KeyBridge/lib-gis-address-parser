@@ -54,9 +54,10 @@ public class AddressParser {
    * @throws Exception if the address is null or empty
    */
   public Address cleanUp(Address address) throws Exception {
-    if (address == null || !address.isUsable()) {
-      throw new Exception("Address is not usable");
-    }
+    /**
+     * Validate that the address has a minimum configuration.
+     */
+    address.isUsable();
     /**
      * Do not parse non-US addresses or PO BOX addresses. Instead just try to
      * clean up and reformat the address components.
@@ -77,7 +78,9 @@ public class AddressParser {
     /**
      * The address is in the United States and is not a P.O. Box.
      */
-    return parse(address.getAddressFormatted());
+    Address addressClean = parse(address.getAddressFormatted());
+    addressClean.setId(address.getId());
+    return addressClean;
   }
 
   /**
