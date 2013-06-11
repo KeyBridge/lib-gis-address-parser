@@ -62,8 +62,7 @@ public class AddressParser {
      * Do not parse non-US addresses or PO BOX addresses. Instead just try to
      * clean up and reformat the address components.
      */
-    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(address.getCountry())
-      || (address.getAddress() != null && address.getAddress().toUpperCase().contains("BOX"))) {
+    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(address.getCountry()) || address.getAddress().toUpperCase().contains("BOX")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
         toUpperCase().
         replace("PO ", "POST OFFICE ").
@@ -80,6 +79,12 @@ public class AddressParser {
      */
     Address addressClean = parse(address.getAddressFormatted());
     addressClean.setId(address.getId());
+    /**
+     * Dump NULL street address fields.
+     */
+    if (addressClean.getAddress().equalsIgnoreCase("null")) {
+      addressClean.setAddress(null);
+    }
     return addressClean;
   }
 
