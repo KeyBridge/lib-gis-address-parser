@@ -74,6 +74,18 @@ public class NumberAndOrdinalPattern {
       return join("|", EnumeratedLookup.getADDRESS_UNIT().values(), EnumeratedLookup.getADDRESS_UNIT().keySet());
     }
 
+    /**
+     * Join the collection of strings on the indicated separator.
+     * <p/>
+     * The SafeVarargs annotation asserts that the body of the annotated method
+     * or constructor does not perform potentially unsafe operations on its
+     * varargs parameter.
+     * <p/>
+     * @param separator   the separator string
+     * @param collections the collection(s) of Strings
+     * @return
+     */
+    @SafeVarargs
     private static String join(String separator, Collection<String>... collections) {
       Set<String> union = new HashSet<String>();
       for (Collection<String> c : collections) {
