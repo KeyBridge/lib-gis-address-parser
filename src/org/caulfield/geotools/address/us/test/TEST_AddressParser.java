@@ -21,7 +21,7 @@ import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
-import org.caulfield.wsif.enumerated.reference.Enum_Country;
+import org.caulfield.wsif.enumerated.reference.ECountry;
 
 /**
  * Test harness to exercise the Parser, Formatter and AddressParse classes.
@@ -96,7 +96,7 @@ public class TEST_AddressParser {
     a.setCity("mclean");
     a.setState("va");
     a.setPostalCode("22102");
-    a.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
+    a.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
 
     System.out.println("wsif\n" + a.getAddressFormatted());
 

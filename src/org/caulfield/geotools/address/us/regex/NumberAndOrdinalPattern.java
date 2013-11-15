@@ -3,7 +3,7 @@ package org.caulfield.geotools.address.us.regex;
 import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
-import org.caulfield.wsif.enumerated.reference.Enum_Country;
+import org.caulfield.wsif.enumerated.reference.ECountry;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for
@@ -60,7 +60,7 @@ public class NumberAndOrdinalPattern {
        * @return
        */
       Map<String, String> countryMap = new HashMap<String, String>();
-      for (Enum_Country country : Enum_Country.values()) {
+      for (ECountry country : ECountry.values()) {
         countryMap.put(country.getIso2(), country.getDescription());
       }
       return join("|", countryMap.values(), countryMap.keySet());

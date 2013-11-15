@@ -20,7 +20,7 @@ import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.Parser;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.wsif.entity.Address;
-import org.caulfield.wsif.enumerated.reference.Enum_Country;
+import org.caulfield.wsif.enumerated.reference.ECountry;
 
 /**
  *
@@ -62,7 +62,7 @@ public class AddressParser {
      * Do not parse non-US addresses or PO BOX addresses. Instead just try to
      * clean up and reformat the address components.
      */
-    if (!Enum_Country.UNITED_STATES_OF_AMERICA.equals(address.getCountry()) || address.getAddress().toUpperCase().contains("BOX")) {
+    if (!ECountry.UNITED_STATES_OF_AMERICA.equals(address.getCountry()) || address.getAddress().toUpperCase().contains("BOX")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
         toUpperCase().
         replace("PO ", "POST OFFICE ").
@@ -91,9 +91,9 @@ public class AddressParser {
   /**
    * Convert a raw address string into a well-formed WSIF address object.
    * <p/>
-   * Valid only for US addresses. This method manually sets the country code to
-   * Enum_Country.UNITED_STATES_OF_AMERICA ('US').
-   * <p/>
+ Valid only for US addresses. This method manually sets the country code to
+ ECountry.UNITED_STATES_OF_AMERICA ('US').
+ <p/>
    * @param addressRaw
    * @return
    * @throws Exception if the address is null or empty
@@ -138,7 +138,7 @@ public class AddressParser {
     address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
-    address.setCountry(Enum_Country.UNITED_STATES_OF_AMERICA);
+    address.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
     return address;
   }
 }
