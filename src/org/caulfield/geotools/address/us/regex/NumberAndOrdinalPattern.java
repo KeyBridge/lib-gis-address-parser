@@ -59,9 +59,9 @@ public class NumberAndOrdinalPattern {
        * <p/>
        * @return
        */
-      Map<String, String> countryMap = new HashMap<String, String>();
+      Map<String, String> countryMap = new HashMap<>();
       for (ECountry country : ECountry.values()) {
-        countryMap.put(country.getIso2(), country.getDescription());
+        countryMap.put(country.getIso2(), country.getName_en());
       }
       return join("|", countryMap.values(), countryMap.keySet());
     }
@@ -87,7 +87,7 @@ public class NumberAndOrdinalPattern {
      */
     @SafeVarargs
     private static String join(String separator, Collection<String>... collections) {
-      Set<String> union = new HashSet<String>();
+      Set<String> union = new HashSet<>();
       for (Collection<String> c : collections) {
         union.addAll(c);
       }
