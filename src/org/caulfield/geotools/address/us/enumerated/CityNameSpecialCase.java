@@ -7,7 +7,7 @@ import java.util.*;
 
 public class CityNameSpecialCase {
 
-  public static final Map<String, List<String>> C_MAP = new HashMap<String, List<String>>();
+  public static final Map<String, List<String>> C_MAP = new HashMap<>();
 
   static {
     BufferedReader r = null;

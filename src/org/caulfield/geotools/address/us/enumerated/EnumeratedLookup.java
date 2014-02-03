@@ -15,35 +15,35 @@ public class EnumeratedLookup {
   /**
    * A mapping of spelled numbers to their integer value
    */
-  private static final Map<String, String> NUMBER = new HashMap<String, String>();
+  private static final Map<String, String> NUMBER = new HashMap<>();
   /**
    * A mapping of direction words (north, south ...) to their abbreviation (N,
    * S, ....)
    */
-  private static final Map<String, String> DIRECTION = new HashMap<String, String>();
+  private static final Map<String, String> DIRECTION = new HashMap<>();
   /**
    * A mapping of street type words (road, alley, circle...) to their respective
    * abbreviation
    */
-  private static final Map<String, String> STREET_TYPE = new HashMap<String, String>();
+  private static final Map<String, String> STREET_TYPE = new HashMap<>();
   /**
    * A mapping of US state names to their respective iso3166 (iso2) abbreviation
    */
-  private static final Map<String, String> STATE = new HashMap<String, String>();
+  private static final Map<String, String> STATE = new HashMap<>();
   /**
    * A mapping of living unit words (apartment, suite, etc.) to their respective
    * abbreviation
    */
-  private static final Map<String, String> ADDRESS_UNIT = new HashMap<String, String>();
+  private static final Map<String, String> ADDRESS_UNIT = new HashMap<>();
   /**
    * A mapping of cities containing the prefix 'St' to the expanded name prefix
    * 'Saint'
    */
-  private static final Map<String, String> SAINT_CITY = new HashMap<String, String>();
+  private static final Map<String, String> SAINT_CITY = new HashMap<>();
   /**
    * A mapping of spelled numbers to their integer value
    */
-  private static final Map<String, String> NUMBER_ORDINAL = new HashMap<String, String>();
+  private static final Map<String, String> NUMBER_ORDINAL = new HashMap<>();
 
   /**
    * A mapping of direction words (north, south ...) to their abbreviation (N,

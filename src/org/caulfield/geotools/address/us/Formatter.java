@@ -65,14 +65,17 @@ public class Formatter {
    * Build a formatted street address from the parsedAddress map.
    * <p/>
    * @param parsedAddressMap a map of parsed address values
-   * @param appendComma      whether to append a comma after the line-2 element.
-   *                         set to false if you only want the street address.
    * @return
    */
   public String toStreetAddress(Map<AddressComponentKey, String> parsedAddressMap) {
     if (parsedAddressMap == null) {
       return null;
     }
+    /**
+     * Developer note: Old version supported a boolean appendComma parameter to
+     * append a comma after the line-2 element. set to false if you only want
+     * the street address.
+     */
     StringBuilder sb = new StringBuilder();
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.NUMBER), " ");
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.PREDIR), " ");
@@ -110,7 +113,7 @@ public class Formatter {
    * @return normalized address in a map
    */
   public Map<AddressComponentKey, String> normalizeParsedAddress(Map<AddressComponentKey, String> parsedAddr) {
-    Map<AddressComponentKey, String> addressComponentMap = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
+    Map<AddressComponentKey, String> addressComponentMap = new EnumMap<>(AddressComponentKey.class);
     /**
      * Null check. If the address failed to parse then return an empty component
      * map.
@@ -215,6 +218,7 @@ public class Formatter {
    * @param directionWord
    * @return
    */
+  @SuppressWarnings("AssignmentToMethodParameter")
   private String normalizeDirection(String directionWord) {
     if (directionWord == null || directionWord.isEmpty()) {
       return null;
@@ -247,9 +251,10 @@ public class Formatter {
   /**
    * Normalize line 2 of an address containing address unit plus unit number.
    * <p/>
-   * @param line2
-   * @return
+   * @param line2 address line 2
+   * @return normalized address line 2 containing address unit plus unit number
    */
+  @SuppressWarnings("AssignmentToMethodParameter")
   private String normalizeLine2(String line2) {
     if (line2 == null || line2.isEmpty()) {
       return null;
@@ -295,11 +300,9 @@ public class Formatter {
    * @return
    */
   private String saintAbbrExpansion(String cityName) {
-    String cityNameExpanded;
-    if ((cityNameExpanded = EnumeratedLookup.getSAINT_CITY().get(cityName)) != null) {
-      return cityNameExpanded;
-    }
-    return cityName;
+    return EnumeratedLookup.getSAINT_CITY().get(cityName) != null
+      ? EnumeratedLookup.getSAINT_CITY().get(cityName)
+      : cityName;
   }
 
   /**
@@ -309,11 +312,9 @@ public class Formatter {
    * @return
    */
   private String normalizeOrdinal(String ordinalWord) {
-    String ordinalNumber;
-    if ((ordinalNumber = EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord)) != null) {
-      return ordinalNumber;
-    }
-    return ordinalWord;
+    return EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord) != null
+      ? EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord)
+      : ordinalWord;
   }
 
   /**
@@ -362,6 +363,5 @@ public class Formatter {
    */
   private static <T> T returnNotNull(T candidate, T replacement) {
     return candidate == null ? replacement : candidate;
-  }
-  //</editor-fold>
+  }//</editor-fold>
 }

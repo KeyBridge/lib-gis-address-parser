@@ -124,7 +124,7 @@ public class Parser {
   }
 
   private Map<AddressComponentKey, String> getAddrMap(Matcher m, Map<Integer, String> groupMap) {
-    Map<AddressComponentKey, String> ret = new EnumMap<AddressComponentKey, String>(AddressComponentKey.class);
+    Map<AddressComponentKey, String> ret = new EnumMap<>(AddressComponentKey.class);
     for (int i = 1; i <= m.groupCount(); i++) {
       String name = groupMap.get(i);
       AddressComponentKey comp = AddressComponentKey.valueOf(name);
@@ -163,7 +163,7 @@ public class Parser {
       String normalizedState = Formatter.normalizeState(StringUtils.upperCase(parsedstate));
       String inputUpper = input.toUpperCase();
       String ret = null;
-      Set<String> stateSet = new HashSet<String>();
+      Set<String> stateSet = new HashSet<>();
       if (normalizedState != null) {
         stateSet.add(normalizedState);
       } else {

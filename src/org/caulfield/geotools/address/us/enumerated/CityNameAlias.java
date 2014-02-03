@@ -12,14 +12,14 @@ import org.caulfield.geotools.address.us.regex.RegexPatternFactory;
 
 public class CityNameAlias {
 
-  private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<String, Map<String, String>>();
+  private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<>();
 
   static {
     BufferedReader bufferedReader = null;
     try {
       bufferedReader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("city-alias.txt")));
       String line;
-      Map<String, Set<String>> allRealCitiesMap = new HashMap<String, Set<String>>();
+      Map<String, Set<String>> allRealCitiesMap = new HashMap<>();
       while ((line = bufferedReader.readLine()) != null) {
         String[] items = line.split("\\s*=\\s*");
         String[] cs = items[0].split("<b>")[1].split("\\s*,\\s*");
@@ -28,7 +28,7 @@ public class CityNameAlias {
 
         Map<String, String> aliasMap = CITY_ALIAS_MAP.get(state);
         if (aliasMap == null) {
-          aliasMap = new HashMap<String, String>();
+          aliasMap = new HashMap<>();
           CITY_ALIAS_MAP.put(state, aliasMap);
         }
 
@@ -38,7 +38,7 @@ public class CityNameAlias {
 
           Set<String> allRealCities = allRealCitiesMap.get(state);
           if (allRealCities == null) {
-            allRealCities = new HashSet<String>();
+            allRealCities = new HashSet<>();
             allRealCitiesMap.put(state, allRealCities);
           }
           allRealCities.add(realCity);

@@ -26,7 +26,7 @@ public class RegexPatternFactory {
    */
   public static RegexPatternGroup compile(String regex) {
     Matcher m = NAMED_GROUP_PATTERN.matcher(regex);
-    Map<Integer, String> namedGroupMap = new HashMap<Integer, String>();
+    Map<Integer, String> namedGroupMap = new HashMap<>();
     int i = 1;
     while (m.find()) {
       namedGroupMap.put(i, m.group(1).toUpperCase());
