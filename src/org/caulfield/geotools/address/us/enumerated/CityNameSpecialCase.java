@@ -12,7 +12,7 @@ public class CityNameSpecialCase {
   static {
     BufferedReader r = null;
     try {
-      r = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/resources/address/exception-city.txt")));
+      r = new BufferedReader(new InputStreamReader(CityNameSpecialCase.class.getClassLoader().getResourceAsStream("META-INF/resources/address/exception-city.txt")));
       String line;
       /**
        * Read and parse each line into an array of alternate city names. Lines

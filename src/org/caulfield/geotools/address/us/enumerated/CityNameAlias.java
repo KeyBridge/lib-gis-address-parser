@@ -17,7 +17,7 @@ public class CityNameAlias {
   static {
     BufferedReader bufferedReader = null;
     try {
-      bufferedReader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/resources/address/city-alias.txt")));
+      bufferedReader = new BufferedReader(new InputStreamReader(CityNameAlias.class.getClassLoader().getResourceAsStream("META-INF/resources/address/city-alias.txt")));
       String line;
       Map<String, Set<String>> allRealCitiesMap = new HashMap<>();
       while ((line = bufferedReader.readLine()) != null) {
