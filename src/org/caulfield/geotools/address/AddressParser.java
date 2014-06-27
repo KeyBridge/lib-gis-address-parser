@@ -77,7 +77,7 @@ public class AddressParser {
     /**
      * The address is in the United States and is not a P.O. Box.
      */
-    Address addressClean = parse(address.getAddressFormatted());
+    Address addressClean = parse(address.format());
     addressClean.setId(address.getId());
     /**
      * Dump NULL street address fields.
