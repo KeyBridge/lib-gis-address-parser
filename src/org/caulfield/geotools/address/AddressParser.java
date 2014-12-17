@@ -28,21 +28,12 @@ import org.caulfield.wsif.enumerated.reference.ECountry;
  */
 public class AddressParser {
 
-  private Formatter formatter;
-  private Parser parser;
+  private final Formatter formatter;
+  private final Parser parser;
 
-  private Formatter getFormatter() {
-    if (formatter == null) {
-      formatter = new Formatter();
-    }
-    return formatter;
-  }
-
-  private Parser getParser() {
-    if (parser == null) {
-      parser = new Parser();
-    }
-    return parser;
+  public AddressParser() {
+    this.formatter = new Formatter();
+    this.parser = new Parser();
   }
 
   /**
@@ -91,9 +82,9 @@ public class AddressParser {
   /**
    * Convert a raw address string into a well-formed WSIF address object.
    * <p/>
- Valid only for US addresses. This method manually sets the country code to
- ECountry.UNITED_STATES_OF_AMERICA ('US').
- <p/>
+   * Valid only for US addresses. This method manually sets the country code to
+   * ECountry.UNITED_STATES_OF_AMERICA ('US').
+   * <p/>
    * @param addressRaw
    * @return
    * @throws Exception if the address is null or empty
@@ -116,7 +107,7 @@ public class AddressParser {
      * FCC ULS records do not provide a postal code, so not requiring one here
      * allows those addresses to be cleaned up and a postal code added later.
      */
-    Address address = buildAddress(getFormatter().normalizeParsedAddress(getParser().parse(addressRaw)));
+    Address address = buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
     if (address.getAddress() != null
       && address.getCity() != null
       && address.getState() != null) {
@@ -134,7 +125,7 @@ public class AddressParser {
    */
   private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
     Address address = new Address();
-    address.setAddress(getFormatter().toStreetAddress(parsedAddressMap));
+    address.setAddress(formatter.toStreetAddress(parsedAddressMap));
     address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));

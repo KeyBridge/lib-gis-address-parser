@@ -1,14 +1,14 @@
 package org.caulfield.geotools.address.us;
 
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.geotools.address.us.enumerated.CityNameSpecialCase;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
 import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
@@ -19,6 +19,50 @@ import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
  * @author jesse
  */
 public class Parser {
+
+  private static final Map<String, List<String>> C_MAP = new HashMap<>();
+
+  public Parser() {
+    init();
+  }
+
+  private void init() {
+    BufferedReader r = null;
+    try {
+      r = new BufferedReader(new InputStreamReader(Parser.class.getClassLoader().getResourceAsStream("META-INF/resources/address/exception-city.txt")));
+      String line;
+      /**
+       * Read and parse each line into an array of alternate city names. Lines
+       * are formatted thus:
+       * <p/>
+       * NY -> WATKINS GLEN|CENTRAL BRIDGE|HOAG CORNERS|BEMIS HEIGHTS|ONTARIO ..
+       */
+      while ((line = r.readLine()) != null) {
+        /**
+         * Strip the state from the city names.
+         */
+        String[] items = line.split("\\s*->\\s*");
+        String state = items[0];
+        /**
+         * Split the city names into an array.
+         */
+        String[] cities = items[1].split("[|]");
+        /**
+         * Set the city map for the selected state.
+         */
+        C_MAP.put(state, Arrays.asList(cities));
+      }
+    } catch (Exception e) {
+      throw new Error("Unable to initalize exception_city", e);
+    } finally {
+      if (r != null) {
+        try {
+          r.close();
+        } catch (IOException e) {
+        }
+      }
+    }
+  }
 
   /**
    * Parses a raw address string, this delegates to
@@ -170,11 +214,11 @@ public class Parser {
         /**
          * if no state hat been found this needs to work much harder
          */
-        stateSet.addAll(CityNameSpecialCase.C_MAP.keySet());
+        stateSet.addAll(C_MAP.keySet());
       }
       int stateIdx = parsedstate == null ? input.length() : input.lastIndexOf(parsedstate);
       for (String state : stateSet) {
-        for (String s : CityNameSpecialCase.C_MAP.get(state)) {
+        for (String s : C_MAP.get(state)) {
           int idx;
           if ((idx = inputUpper.lastIndexOf(s)) != -1) {
             /**

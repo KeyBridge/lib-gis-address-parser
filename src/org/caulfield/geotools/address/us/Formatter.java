@@ -1,15 +1,18 @@
 package org.caulfield.geotools.address.us;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
+import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.geotools.address.us.enumerated.CityNameAlias;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
 import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
+import org.caulfield.geotools.address.us.regex.RegexPatternFactory;
 
 /**
  * Class to output well-formed, formated address strings from a parse address
@@ -19,6 +22,58 @@ import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
  * @author jesse
  */
 public class Formatter {
+
+  private static final Map<String, Map<String, String>> CITY_ALIAS_MAP = new HashMap<>();
+
+  public Formatter() {
+    init();
+  }
+
+  private void init() {
+    BufferedReader bufferedReader = null;
+    try {
+      bufferedReader = new BufferedReader(new InputStreamReader(Formatter.class.getClassLoader().getResourceAsStream("META-INF/resources/address/city-alias.txt")));
+      String line;
+      Map<String, Set<String>> allRealCitiesMap = new HashMap<>();
+      while ((line = bufferedReader.readLine()) != null) {
+        String[] items = line.split("\\s*=\\s*");
+        String[] cs = items[0].split("<b>")[1].split("\\s*,\\s*");
+        String city = cs[0], state = cs[1];
+        String[] alias = items[1].split("[|]");
+
+        Map<String, String> aliasMap = CITY_ALIAS_MAP.get(state);
+        if (aliasMap == null) {
+          aliasMap = new HashMap<>();
+          CITY_ALIAS_MAP.put(state, aliasMap);
+        }
+
+        for (String a : alias) {
+          String aa = a.split("\\s*,\\s*")[0];
+          String realCity = city.intern();
+
+          Set<String> allRealCities = allRealCitiesMap.get(state);
+          if (allRealCities == null) {
+            allRealCities = new HashSet<>();
+            allRealCitiesMap.put(state, allRealCities);
+          }
+          allRealCities.add(realCity);
+          if (!allRealCities.contains(aa)) {
+            aliasMap.put(aa.replaceAll("\\s+", "").intern(), city.intern());
+          }
+        }
+      }
+      allRealCitiesMap.clear();
+    } catch (IOException e) {
+      throw new Error("Unable to initalize City Alias Resolver", e);
+    } finally {
+      if (bufferedReader != null) {
+        try {
+          bufferedReader.close();
+        } catch (IOException e) {
+        }
+      }
+    }
+  }
 
   /**
    * Convert a parsed address (map) into one a one-line address formatted
@@ -171,7 +226,9 @@ public class Formatter {
           break;
       }
     }
-    addressComponentMap.put(AddressComponentKey.CITY, resolveCityAlias(addressComponentMap.get(AddressComponentKey.CITY), addressComponentMap.get(AddressComponentKey.STATE)));
+    addressComponentMap.put(AddressComponentKey.CITY,
+                            resolveCityAlias(addressComponentMap.get(AddressComponentKey.CITY),
+                                             addressComponentMap.get(AddressComponentKey.STATE)));
     return addressComponentMap;
   }
 
@@ -284,13 +341,25 @@ public class Formatter {
   /**
    * Get the REAL city name by checking the provided city/state pair against a
    * list of known aliases.
+   * <p>
+   * Get the REAL city name by checking the provided city/state pair against a
+   * list of known aliases.
    * <p/>
-   * @param city
+   * This method checks the city-alias data set and is only valid for US cities.
+   * <p/>
+   * @param cityAliasName
    * @param state
-   * @return
+   * @return the real city if the input {@code city} is an recognized alias,
+   *         otherwise returns the original input
    */
-  private String resolveCityAlias(String city, String state) {
-    return CityNameAlias.getRealCityName(city, state);
+  private String resolveCityAlias(String cityAliasName, String state) {
+    if (StringUtils.isBlank(cityAliasName) || StringUtils.isBlank(state)) {
+      return cityAliasName;
+    }
+    return CITY_ALIAS_MAP.containsKey(state)
+      ? RegexPatternFactory.returnNotNull(CITY_ALIAS_MAP.get(state).get(cityAliasName.replaceAll("\\s+", "")),
+                                          cityAliasName)
+      : cityAliasName;
   }
 
   /**
