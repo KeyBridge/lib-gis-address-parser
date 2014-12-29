@@ -44,7 +44,7 @@ public class AddressParser {
    * @return a well-formed, formatted WSIF address object
    * @throws Exception if the address is null or empty
    */
-  public Address cleanUp(Address address) throws Exception {
+  public Address parse(Address address) throws Exception {
     /**
      * Validate that the address has a minimum configuration.
      */

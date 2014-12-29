@@ -68,8 +68,6 @@ public class TEST_AddressParser {
 //    String addr1 = "8000 Towers Crescent Drive, Suite 1100, Mclean, VA 22102";
     String addr1 = "8000 Towers Crescent Drive, Suite 1100, HILTON HEAD ISLAND, SC 22102";
 
-
-
     TEST_AddressParser t = new TEST_AddressParser();
 
     Map<AddressComponentKey, String> outMap = t.getParser().parse(addr1);
@@ -98,13 +96,12 @@ public class TEST_AddressParser {
     a.setPostalCode("22102");
     a.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
 
-    System.out.println("wsif\n" + a.getAddressFormatted());
+    System.out.println("wsif\n" + a.getAddress());
 
     System.out.println("TEST Address Parser ------------------------------------");
     AddressParser ap = new AddressParser();
-    Address b = ap.cleanUp(a);
+    Address b = ap.parse(a);
     System.out.println("From AddressParser: " + b);
-
 
   }
 }
