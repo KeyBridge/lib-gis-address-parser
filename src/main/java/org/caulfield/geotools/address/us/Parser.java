@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
@@ -204,7 +203,7 @@ public class Parser {
           parsedstate = parsedcity;
         }
       }
-      String normalizedState = Formatter.normalizeState(StringUtils.upperCase(parsedstate));
+      String normalizedState = Formatter.normalizeState(parsedstate.toUpperCase(Locale.getDefault()));
       String inputUpper = input.toUpperCase();
       String ret = null;
       Set<String> stateSet = new HashSet<>();

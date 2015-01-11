@@ -1,7 +1,6 @@
 package org.caulfield.geotools.address.us.regex;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
 import org.caulfield.wsif.enumerated.reference.ECountry;
 
@@ -99,7 +98,17 @@ public class NumberAndOrdinalPattern {
           return Integer.valueOf(o2.length()).compareTo(o1.length());
         }
       });
-      return StringUtils.join(lst, separator);
+      StringBuilder sb = new StringBuilder();
+      boolean first = true;
+      for (String string : lst) {
+        if (first) {
+          sb.append(string);
+          first = false;
+        } else {
+          sb.append(separator).append(string);
+        }
+      }
+      return sb.toString();
     }
   }
 }

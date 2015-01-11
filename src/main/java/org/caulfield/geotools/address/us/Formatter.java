@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import org.caulfield.geotools.address.us.Formatter;
 import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
 import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
@@ -153,7 +152,7 @@ public class Formatter {
     /**
      * Insert a comma between the first address and the second address
      */
-    if (StringUtils.isNotBlank(sb.toString()) && parsedAddressMap.get(AddressComponentKey.LINE2) != null) {
+    if (!sb.toString().isEmpty() && parsedAddressMap.get(AddressComponentKey.LINE2) != null) {
       sb.append(", ");
     }
     appendIfNotNull(sb, parsedAddressMap.get(AddressComponentKey.LINE2), "");
@@ -180,7 +179,7 @@ public class Formatter {
      * Developer note: Just take the digits from the number component
      */
     for (Map.Entry<AddressComponentKey, String> e : parsedAddr.entrySet()) {
-      String v = StringUtils.upperCase(e.getValue());
+      String v = e.getValue().toUpperCase(Locale.getDefault());
       switch (e.getKey()) {
         case PREDIR:
           addressComponentMap.put(AddressComponentKey.PREDIR, normalizeDirection(v));
@@ -335,7 +334,7 @@ public class Formatter {
    * @return 5-character zip code
    */
   private String normalizeZip(String zipPlus4) {
-    return StringUtils.length(zipPlus4) > 5 ? zipPlus4.substring(0, 5) : zipPlus4;
+    return zipPlus4.length() > 5 ? zipPlus4.substring(0, 5) : zipPlus4;
   }
 
   /**
@@ -353,7 +352,7 @@ public class Formatter {
    *         otherwise returns the original input
    */
   private String resolveCityAlias(String cityAliasName, String state) {
-    if (StringUtils.isBlank(cityAliasName) || StringUtils.isBlank(state)) {
+    if (cityAliasName.isEmpty() || state.isEmpty()) {
       return cityAliasName;
     }
     return CITY_ALIAS_MAP.containsKey(state)
