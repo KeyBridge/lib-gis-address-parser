@@ -31,7 +31,7 @@ public class Formatter {
   private void init() {
     BufferedReader bufferedReader = null;
     try {
-      bufferedReader = new BufferedReader(new InputStreamReader(Formatter.class.getClassLoader().getResourceAsStream("META-INF/resources/address/city-alias.txt")));
+      bufferedReader = new BufferedReader(new InputStreamReader(Formatter.class.getClassLoader().getResourceAsStream("META-INF/address/city-alias.txt")));
       String line;
       Map<String, Set<String>> allRealCitiesMap = new HashMap<>();
       while ((line = bufferedReader.readLine()) != null) {

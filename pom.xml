@@ -6,7 +6,7 @@
   <artifactId>address-parser</artifactId>
   <version>0.1</version>
   <packaging>jar</packaging>
-  <name>Address Parser</name>
+  <name>lib-address-parser</name>
   <description>Utility class to parse and standardize address information.
     
 Address standardization is the process that takes an address 

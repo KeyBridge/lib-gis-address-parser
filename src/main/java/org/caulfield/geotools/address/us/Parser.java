@@ -28,7 +28,7 @@ public class Parser {
   private void init() {
     BufferedReader r = null;
     try {
-      r = new BufferedReader(new InputStreamReader(Parser.class.getClassLoader().getResourceAsStream("META-INF/resources/address/exception-city.txt")));
+      r = new BufferedReader(new InputStreamReader(Parser.class.getClassLoader().getResourceAsStream("META-INF/address/exception-city.txt")));
       String line;
       /**
        * Read and parse each line into an array of alternate city names. Lines
