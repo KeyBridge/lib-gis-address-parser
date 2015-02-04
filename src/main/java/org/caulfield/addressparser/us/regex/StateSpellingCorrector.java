@@ -1,6 +1,6 @@
-package org.caulfield.geotools.address.us.regex;
+package org.caulfield.addressparser.us.regex;
 
-import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
+import org.caulfield.addressparser.us.enumerated.EnumeratedLookup;
 
 /**
  * Class to correct the spelling of a US state.

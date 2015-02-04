@@ -1,4 +1,4 @@
-package org.caulfield.geotools.address.us;
+package org.caulfield.addressparser.us;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.caulfield.geotools.address.us.Formatter;
-import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
-import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
-import org.caulfield.geotools.address.us.regex.StateSpellingCorrector;
+import org.caulfield.addressparser.us.Formatter;
+import org.caulfield.addressparser.us.enumerated.AddressComponentKey;
+import org.caulfield.addressparser.us.regex.AddressComponentPattern;
+import org.caulfield.addressparser.us.regex.NumberAndOrdinalPattern;
+import org.caulfield.addressparser.us.regex.StateSpellingCorrector;
 
 /**
  * Class to parse a free-text address into its components.

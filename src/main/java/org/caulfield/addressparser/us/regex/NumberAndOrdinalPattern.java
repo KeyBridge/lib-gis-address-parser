@@ -1,8 +1,8 @@
-package org.caulfield.geotools.address.us.regex;
+package org.caulfield.addressparser.us.regex;
 
 import java.util.*;
-import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
-import org.caulfield.wsif.enumerated.reference.ECountry;
+import org.caulfield.addressparser.us.enumerated.EnumeratedLookup;
+import org.caulfield.lib.wsif.enumerated.reference.ECountry;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for

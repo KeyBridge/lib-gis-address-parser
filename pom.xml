@@ -4,7 +4,7 @@
   
   <groupId>org.caulfield.lib</groupId>
   <artifactId>address-parser</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>jar</packaging>
   <name>lib-address-parser</name>
   <description>Utility class to parse and standardize address information.
@@ -48,7 +48,7 @@ exists and if the combination is correct.</description>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>lib-wsif</artifactId>
-      <version>6.0</version>
+      <version>7.0</version>
     </dependency>
   </dependencies>
   

@@ -1,4 +1,4 @@
-package org.caulfield.geotools.address.us.enumerated;
+package org.caulfield.addressparser.us.enumerated;
 
 import java.util.HashMap;
 import java.util.Map;

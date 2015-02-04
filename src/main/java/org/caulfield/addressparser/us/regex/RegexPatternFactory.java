@@ -1,4 +1,4 @@
-package org.caulfield.geotools.address.us.regex;
+package org.caulfield.addressparser.us.regex;
 
 import java.util.HashMap;
 import java.util.Map;

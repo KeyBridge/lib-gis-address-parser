@@ -1,4 +1,4 @@
-package org.caulfield.geotools.address.us;
+package org.caulfield.addressparser.us;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.caulfield.geotools.address.us.Formatter;
-import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.geotools.address.us.enumerated.EnumeratedLookup;
-import org.caulfield.geotools.address.us.regex.AddressComponentPattern;
-import org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern;
-import org.caulfield.geotools.address.us.regex.RegexPatternFactory;
+import org.caulfield.addressparser.us.Formatter;
+import org.caulfield.addressparser.us.enumerated.AddressComponentKey;
+import org.caulfield.addressparser.us.enumerated.EnumeratedLookup;
+import org.caulfield.addressparser.us.regex.AddressComponentPattern;
+import org.caulfield.addressparser.us.regex.NumberAndOrdinalPattern;
+import org.caulfield.addressparser.us.regex.RegexPatternFactory;
 
 /**
  * Class to output well-formed, formated address strings from a parse address
@@ -95,7 +95,7 @@ public class Formatter {
     /**
      * If a multi-line address then include the name. Otherwise omit it.
      */
-    if (!singleLine) {
+    if (!singleLine && parsedAddressMap.get(AddressComponentKey.NAME) != null) {
       appendIfNotNull(sb, toProperCase(parsedAddressMap.get(AddressComponentKey.NAME)) + "\n", "");
     }
     /**
@@ -386,14 +386,15 @@ public class Formatter {
   }
 
   /**
-   * Internal string builder method to append items only if they are not null.
+   * Internal string builder method to append items only if they are not null
+   * and not empty.
    * <p/>
    * @param sb     the string builder (not null)
    * @param s      the string under construction (not null)
    * @param suffix the text to be appended (OK if null)
    */
   private void appendIfNotNull(StringBuilder sb, String s, String suffix) {
-    if (s != null) {
+    if (s != null && !s.isEmpty()) {
       sb.append(s).append(suffix);
     }
   }

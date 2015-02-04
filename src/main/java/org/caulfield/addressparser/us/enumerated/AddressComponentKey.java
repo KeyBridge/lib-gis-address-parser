@@ -1,4 +1,4 @@
-package org.caulfield.geotools.address.us.enumerated;
+package org.caulfield.addressparser.us.enumerated;
 
 /**
  * Enumerated list of address map keys.

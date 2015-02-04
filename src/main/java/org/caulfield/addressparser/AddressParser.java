@@ -13,14 +13,14 @@
  *   A copy of Caulfield's either License Agreement can be obtained on request
  *   by email from: info@caufield.org.
  */
-package org.caulfield.geotools.address;
+package org.caulfield.addressparser;
 
 import java.util.Map;
-import org.caulfield.geotools.address.us.Formatter;
-import org.caulfield.geotools.address.us.Parser;
-import org.caulfield.geotools.address.us.enumerated.AddressComponentKey;
-import org.caulfield.wsif.entity.Address;
-import org.caulfield.wsif.enumerated.reference.ECountry;
+import org.caulfield.addressparser.us.Formatter;
+import org.caulfield.addressparser.us.Parser;
+import org.caulfield.addressparser.us.enumerated.AddressComponentKey;
+import org.caulfield.lib.wsif.entity.Address;
+import org.caulfield.lib.wsif.enumerated.reference.ECountry;
 
 /**
  *
@@ -48,7 +48,9 @@ public class AddressParser {
     /**
      * Validate that the address has a minimum configuration.
      */
-    address.isUsable();
+    if (!address.isComplete()) {
+      throw new Exception("A complete address is required: " + address);
+    }
     /**
      * Do not parse non-US addresses or PO BOX addresses. Instead just try to
      * clean up and reformat the address components.

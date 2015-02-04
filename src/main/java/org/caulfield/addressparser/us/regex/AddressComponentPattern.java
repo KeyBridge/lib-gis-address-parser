@@ -1,9 +1,8 @@
-package org.caulfield.geotools.address.us.regex;
+package org.caulfield.addressparser.us.regex;
 
-import org.caulfield.geotools.address.us.regex.RegexPatternFactory.RegexPatternGroup;
-
-import static org.caulfield.geotools.address.us.regex.NumberAndOrdinalPattern.*;
-import static org.caulfield.geotools.address.us.regex.RegexPatternFactory.compile;
+import org.caulfield.addressparser.us.regex.RegexPatternFactory.RegexPatternGroup;
+import static org.caulfield.addressparser.us.regex.NumberAndOrdinalPattern.*;
+import static org.caulfield.addressparser.us.regex.RegexPatternFactory.compile;
 
 /**
  * Regex patterns to match various address block components
