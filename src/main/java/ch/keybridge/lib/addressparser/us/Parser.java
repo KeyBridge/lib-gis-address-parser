@@ -1,16 +1,16 @@
-package org.caulfield.addressparser.us;
+package ch.keybridge.lib.addressparser.us;
 
+import ch.keybridge.lib.addressparser.us.Formatter;
+import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.lib.addressparser.us.regex.AddressComponentPattern;
+import ch.keybridge.lib.addressparser.us.regex.NumberAndOrdinalPattern;
+import ch.keybridge.lib.addressparser.us.regex.StateSpellingCorrector;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.caulfield.addressparser.us.Formatter;
-import org.caulfield.addressparser.us.enumerated.AddressComponentKey;
-import org.caulfield.addressparser.us.regex.AddressComponentPattern;
-import org.caulfield.addressparser.us.regex.NumberAndOrdinalPattern;
-import org.caulfield.addressparser.us.regex.StateSpellingCorrector;
 
 /**
  * Class to parse a free-text address into its components.

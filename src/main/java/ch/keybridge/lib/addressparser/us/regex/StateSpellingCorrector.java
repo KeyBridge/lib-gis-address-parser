@@ -1,6 +1,6 @@
-package org.caulfield.addressparser.us.regex;
+package ch.keybridge.lib.addressparser.us.regex;
 
-import org.caulfield.addressparser.us.enumerated.EnumeratedLookup;
+import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
 
 /**
  * Class to correct the spelling of a US state.

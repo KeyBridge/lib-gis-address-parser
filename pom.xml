@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>org.caulfield.lib</groupId>
+  <groupId>keybridge.lib</groupId>
   <artifactId>address-parser</artifactId>
   <version>0.2</version>
   <packaging>jar</packaging>
@@ -16,10 +16,10 @@ correction (dictionnaries, spellchecking, synonyms), while correction
 is based on postal reference data : correction checks if each element
 exists and if the combination is correct.</description>
   <organization>
-    <name>Key Bridge Global LLC</name>
-    <url>http://keybridgeglobal.com</url>
+    <name>Key Bridge</name>
+    <url>http://keybridge.ch</url>
   </organization>
-  <url>http://keybridgeglobal.com</url>
+  <url>http://keybridge.ch</url>
   
   <build>
     <plugins>

@@ -1,8 +1,7 @@
-package org.caulfield.addressparser.us.regex;
+package ch.keybridge.lib.addressparser.us.regex;
 
-import org.caulfield.addressparser.us.regex.RegexPatternFactory.RegexPatternGroup;
-import static org.caulfield.addressparser.us.regex.NumberAndOrdinalPattern.*;
-import static org.caulfield.addressparser.us.regex.RegexPatternFactory.compile;
+import static ch.keybridge.lib.addressparser.us.regex.NumberAndOrdinalPattern.*;
+import ch.keybridge.lib.addressparser.us.regex.RegexPatternFactory.RegexPatternGroup;
 
 /**
  * Regex patterns to match various address block components
@@ -45,8 +44,8 @@ public class AddressComponentPattern {
   private static final String STREET_ADDRESS = ADDR_NAME + LINE1 + "(?P<tlid>\\W+)" + LINE2 + LASTLINE + "\\W*"; //the group name is a hack
   private static final String CORNER = "(?:\\band\\b|\\bat\\b|&|\\@)";
   private static final String INTERSECTION = ADDR_NAME + "(?:" + LINE1A + "|" + LINE1B + ")\\W*\\s+" + CORNER + "\\s+(?:" + LINE1A2 + "|" + LINE1B2 + ")\\W+" + LASTLINE + "\\W*";
-  public static final RegexPatternGroup P_CSZ = compile("(?i:" + LASTLINE + ")");
-  public static final RegexPatternGroup P_STREET_ADDRESS = compile("(?i:" + STREET_ADDRESS + ")");
-  public static final RegexPatternGroup P_INTERSECTION = compile("(?i:" + INTERSECTION + ")");
-  public static final RegexPatternGroup P_CORNER = compile("(?i:" + CORNER + ")");
+  public static final RegexPatternGroup P_CSZ = RegexPatternFactory.compile("(?i:" + LASTLINE + ")");
+  public static final RegexPatternGroup P_STREET_ADDRESS = RegexPatternFactory.compile("(?i:" + STREET_ADDRESS + ")");
+  public static final RegexPatternGroup P_INTERSECTION = RegexPatternFactory.compile("(?i:" + INTERSECTION + ")");
+  public static final RegexPatternGroup P_CORNER = RegexPatternFactory.compile("(?i:" + CORNER + ")");
 }

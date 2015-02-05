@@ -1,4 +1,4 @@
-package org.caulfield.addressparser.us.regex;
+package ch.keybridge.lib.addressparser.us.regex;
 
 import java.util.HashMap;
 import java.util.Map;

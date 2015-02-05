@@ -1,8 +1,8 @@
-package org.caulfield.addressparser.us.regex;
+package ch.keybridge.lib.addressparser.us.regex;
 
 import java.util.*;
-import org.caulfield.addressparser.us.enumerated.EnumeratedLookup;
-import org.caulfield.lib.wsif.enumerated.reference.ECountry;
+import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
+import ch.keybridge.lib.wsif.enumerated.reference.ECountry;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for

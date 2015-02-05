@@ -13,14 +13,14 @@
  *   A copy of Caulfield's either License Agreement can be obtained on request
  *   by email from: info@caufield.org.
  */
-package org.caulfield.addressparser;
+package ch.keybridge.lib.addressparser;
 
+import ch.keybridge.lib.addressparser.us.Formatter;
+import ch.keybridge.lib.addressparser.us.Parser;
+import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.lib.wsif.entity.Address;
+import ch.keybridge.lib.wsif.enumerated.reference.ECountry;
 import java.util.Map;
-import org.caulfield.addressparser.us.Formatter;
-import org.caulfield.addressparser.us.Parser;
-import org.caulfield.addressparser.us.enumerated.AddressComponentKey;
-import org.caulfield.lib.wsif.entity.Address;
-import org.caulfield.lib.wsif.enumerated.reference.ECountry;
 
 /**
  *

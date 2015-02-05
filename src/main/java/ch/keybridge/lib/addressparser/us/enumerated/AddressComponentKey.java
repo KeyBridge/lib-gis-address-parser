@@ -1,4 +1,4 @@
-package org.caulfield.addressparser.us.enumerated;
+package ch.keybridge.lib.addressparser.us.enumerated;
 
 /**
  * Enumerated list of address map keys.
