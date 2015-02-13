@@ -47,7 +47,7 @@ exists and if the combination is correct.</description>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>lib-wsif</artifactId>
+      <artifactId>wsif-entity</artifactId>
       <version>7.0</version>
     </dependency>
   </dependencies>

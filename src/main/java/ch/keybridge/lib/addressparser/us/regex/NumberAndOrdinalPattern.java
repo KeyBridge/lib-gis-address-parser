@@ -1,8 +1,8 @@
 package ch.keybridge.lib.addressparser.us.regex;
 
-import java.util.*;
 import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
-import ch.keybridge.lib.wsif.enumerated.reference.ECountry;
+import ch.keybridge.lib.common.enumerated.ECountry;
+import java.util.*;
 
 /**
  * Some common Regex patterns used for address parsing. These are not for

@@ -18,8 +18,8 @@ package ch.keybridge.lib.addressparser;
 import ch.keybridge.lib.addressparser.us.Formatter;
 import ch.keybridge.lib.addressparser.us.Parser;
 import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.lib.common.enumerated.ECountry;
 import ch.keybridge.lib.wsif.entity.Address;
-import ch.keybridge.lib.wsif.enumerated.reference.ECountry;
 import java.util.Map;
 
 /**
