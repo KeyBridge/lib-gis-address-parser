@@ -49,22 +49,26 @@ public class AddressParser {
      * Validate that the address has a minimum configuration.
      */
     if (!address.isComplete()) {
-      throw new Exception("A complete address is required: " + address);
+      throw new Exception("Cannot parse a partial address: " + address);
     }
     /**
-     * Do not parse non-US addresses or PO BOX addresses. Instead just try to
-     * clean up and reformat the address components.
+     * Do not parse non-US addresses or PO BOX addresses or street addresses
+     * without numbers. Parser does not handle streets without numbers.
+     * <p>
+     * Instead just try to clean up and reformat the address components.
      */
-    if (!ECountry.UNITED_STATES_OF_AMERICA.equals(address.getCountry()) || address.getAddress().toUpperCase().contains("BOX")) {
+    if (!ECountry.UNITED_STATES_OF_AMERICA.equals(address.getCountry())
+        || address.getAddress().toUpperCase().contains("BOX")
+        || !address.getAddress().matches("\\d")) {
       address.setAddress(Formatter.toProperCase(address.getAddress().
-        toUpperCase().
-        replace("PO ", "POST OFFICE ").
-        replace("P.O.", "POST OFFICE").
-        replace("P. O.", "POST OFFICE")).trim());
+              toUpperCase().
+              replace("PO ", "POST OFFICE ").
+              replace("P.O.", "POST OFFICE").
+              replace("P. O.", "POST OFFICE")).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setCounty(Formatter.toProperCase(address.getCounty()));
-      address.setState(address.getState() == null ? null : address.getState().toUpperCase());
-      address.setPostalCode(address.getPostalCode() == null ? null : address.getPostalCode().toUpperCase());
+      address.setState(address.getState().toUpperCase());
+      address.setPostalCode(address.getPostalCode().toUpperCase());
       return address;
     }
     /**
@@ -75,8 +79,8 @@ public class AddressParser {
     /**
      * Dump NULL street address fields.
      */
-    if (addressClean.getAddress().equalsIgnoreCase("null")) {
-      addressClean.setAddress(null);
+    if (addressClean.getAddress().trim().equalsIgnoreCase("null")) {
+      addressClean.setAddress(Formatter.toProperCase(address.getAddress()));
     }
     return addressClean;
   }
@@ -110,12 +114,10 @@ public class AddressParser {
      * allows those addresses to be cleaned up and a postal code added later.
      */
     Address address = buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
-    if (address.getAddress() != null
-      && address.getCity() != null
-      && address.getState() != null) {
-      return address;
+    if (!address.isComplete()) {
+      throw new Exception("Address parsing could not produce a usable address");
     }
-    throw new Exception("Address parsing could not produce a usable address");
+    return address;
   }
 
   /**
