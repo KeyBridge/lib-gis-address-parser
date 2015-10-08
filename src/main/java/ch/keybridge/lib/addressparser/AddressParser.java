@@ -58,9 +58,9 @@ public class AddressParser {
      * Instead just try to clean up and reformat the address components.
      */
     if (!ECountry.UNITED_STATES_OF_AMERICA.equals(address.getCountry())
-        || address.getAddress().toUpperCase().contains("BOX")
-        || !address.getAddress().matches("\\d")) {
-      address.setAddress(Formatter.toProperCase(address.getAddress().
+        || address.getStreet().toUpperCase().contains("BOX")
+        || !address.getStreet().matches("\\d")) {
+      address.setStreet(Formatter.toProperCase(address.getStreet().
               toUpperCase().
               replace("PO ", "POST OFFICE ").
               replace("P.O.", "POST OFFICE").
@@ -79,8 +79,8 @@ public class AddressParser {
     /**
      * Dump NULL street address fields.
      */
-    if (addressClean.getAddress().trim().equalsIgnoreCase("null")) {
-      addressClean.setAddress(Formatter.toProperCase(address.getAddress()));
+    if (addressClean.getStreet().trim().equalsIgnoreCase("null")) {
+      addressClean.setStreet(Formatter.toProperCase(address.getStreet()));
     }
     return addressClean;
   }
@@ -129,7 +129,7 @@ public class AddressParser {
    */
   private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
     Address address = new Address();
-    address.setAddress(formatter.toStreetAddress(parsedAddressMap));
+    address.setStreet(formatter.toStreetAddress(parsedAddressMap));
     address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
     address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
     address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));

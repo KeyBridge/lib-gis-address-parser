@@ -1,26 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <groupId>keybridge.lib</groupId>
   <artifactId>address-parser</artifactId>
-  <version>0.2</version>
+  <version>0.9.0</version>
   <packaging>jar</packaging>
   <name>lib-address-parser</name>
   <description>Utility class to parse and standardize address information.
-    
-Address standardization is the process that takes an address 
-and converts it to a standard format by analyzing the several components. 
-Standardization is not correction ! Standardization is based on syntax 
-correction (dictionnaries, spellchecking, synonyms), while correction 
-is based on postal reference data : correction checks if each element
-exists and if the combination is correct.</description>
+
+    Address standardization is the process that takes an address
+    and converts it to a standard format by analyzing the several components.
+    Standardization is not correction ! Standardization is based on syntax
+    correction (dictionnaries, spellchecking, synonyms), while correction
+    is based on postal reference data : correction checks if each element
+    exists and if the combination is correct.
+
+    0.9.0 - works fine most all of the time
+
+  </description>
   <organization>
     <name>Key Bridge</name>
     <url>http://keybridge.ch</url>
   </organization>
   <url>http://keybridge.ch</url>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -48,10 +52,10 @@ exists and if the combination is correct.</description>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>wsif-entity</artifactId>
-      <version>7.0</version>
+      <version>7.2.0</version>
     </dependency>
   </dependencies>
-  
+
   <distributionManagement>
     <repository>
       <id>archiva.internal</id>

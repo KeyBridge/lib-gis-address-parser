@@ -1,11 +1,11 @@
 package ch.keybridge.lib.addressparser.us;
 
+import ch.keybridge.lib.addressparser.us.Formatter;
 import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
 import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
 import ch.keybridge.lib.addressparser.us.regex.AddressComponentPattern;
 import ch.keybridge.lib.addressparser.us.regex.NumberAndOrdinalPattern;
 import ch.keybridge.lib.addressparser.us.regex.RegexPatternFactory;
-import ch.keybridge.lib.addressparser.us.Formatter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -231,6 +231,28 @@ public class Formatter {
     return addressComponentMap;
   }
 
+  /**
+   * Set a string to proper case - lower case with the first character
+   * uppercase. Credit to
+   * http://www.theeggeadventure.com/wikimedia/index.php/Java_Proper_Case
+   * <p/>
+   * @param string
+   * @return string formatted to proper case
+   */
+  public static String toProperCase(String string) {
+    if (string == null || string.isEmpty()) {
+      return null;
+    }
+    Pattern p = Pattern.compile("(^|\\W)([a-z])");
+    Matcher m = p.matcher(string.toLowerCase());
+    StringBuffer sb = new StringBuffer(string.length());
+    while (m.find()) {
+      m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase());
+    }
+    m.appendTail(sb);
+    return sb.toString();
+  }
+
   //<editor-fold defaultstate="collapsed" desc="Private Formatting Methods">
   /**
    * Internal method to normalize a number entry
@@ -356,9 +378,9 @@ public class Formatter {
       return cityAliasName;
     }
     return CITY_ALIAS_MAP.containsKey(state)
-      ? RegexPatternFactory.returnNotNull(CITY_ALIAS_MAP.get(state).get(cityAliasName.replaceAll("\\s+", "")),
-                                          cityAliasName)
-      : cityAliasName;
+           ? RegexPatternFactory.returnNotNull(CITY_ALIAS_MAP.get(state).get(cityAliasName.replaceAll("\\s+", "")),
+                                               cityAliasName)
+           : cityAliasName;
   }
 
   /**
@@ -369,8 +391,8 @@ public class Formatter {
    */
   private String saintAbbrExpansion(String cityName) {
     return EnumeratedLookup.getSAINT_CITY().get(cityName) != null
-      ? EnumeratedLookup.getSAINT_CITY().get(cityName)
-      : cityName;
+           ? EnumeratedLookup.getSAINT_CITY().get(cityName)
+           : cityName;
   }
 
   /**
@@ -381,8 +403,8 @@ public class Formatter {
    */
   private String normalizeOrdinal(String ordinalWord) {
     return EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord) != null
-      ? EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord)
-      : ordinalWord;
+           ? EnumeratedLookup.getNUMBER_ORDINAL().get(ordinalWord)
+           : ordinalWord;
   }
 
   /**
@@ -397,28 +419,6 @@ public class Formatter {
     if (s != null && !s.isEmpty()) {
       sb.append(s).append(suffix);
     }
-  }
-
-  /**
-   * Set a string to proper case - lower case with the first character
-   * uppercase. Credit to
-   * http://www.theeggeadventure.com/wikimedia/index.php/Java_Proper_Case
-   * <p/>
-   * @param string
-   * @return string formatted to proper case
-   */
-  public static String toProperCase(String string) {
-    if (string == null || string.isEmpty()) {
-      return null;
-    }
-    Pattern p = Pattern.compile("(^|\\W)([a-z])");
-    Matcher m = p.matcher(string.toLowerCase());
-    StringBuffer sb = new StringBuffer(string.length());
-    while (m.find()) {
-      m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase());
-    }
-    m.appendTail(sb);
-    return sb.toString();
   }
 
   /**
