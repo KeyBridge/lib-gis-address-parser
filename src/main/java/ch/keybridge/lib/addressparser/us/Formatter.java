@@ -253,6 +253,28 @@ public class Formatter {
     return sb.toString();
   }
 
+  /**
+   * Converts all of the characters in this String to upper case using the rules
+   * of the default locale.
+   * <p>
+   * @param string the String
+   * @return the String, converted to uppercase.
+   */
+  public static String toUpperCase(String string) {
+    return string == null || string.isEmpty() ? null : string.toUpperCase();
+  }
+
+  /**
+   * Converts all of the characters in this String to lower case using the rules
+   * of the default locale.
+   * <p>
+   * @param string the String
+   * @return the String, converted to lowercase.
+   */
+  public static String toLowerCase(String string) {
+    return string == null || string.isEmpty() ? null : string.toLowerCase();
+  }
+
   //<editor-fold defaultstate="collapsed" desc="Private Formatting Methods">
   /**
    * Internal method to normalize a number entry

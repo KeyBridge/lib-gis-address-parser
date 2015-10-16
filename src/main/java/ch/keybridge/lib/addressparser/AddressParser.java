@@ -48,8 +48,14 @@ public class AddressParser {
     /**
      * Validate that the address has a minimum configuration.
      */
-    if (!address.isComplete()) {
-      throw new Exception("Cannot parse a partial address: " + address);
+    if (address.getStreet() == null || address.getStreet().isEmpty()) {
+      throw new Exception("Cannot parse the partial address: " + address);
+    }
+    /**
+     * If the country is not set the force it to USA.
+     */
+    if (address.getCountry() == null) {
+      address.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
     }
     /**
      * Do not parse non-US addresses or PO BOX addresses or street addresses
@@ -67,8 +73,8 @@ public class AddressParser {
               replace("P. O.", "POST OFFICE")).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setCounty(Formatter.toProperCase(address.getCounty()));
-      address.setState(address.getState().toUpperCase());
-      address.setPostalCode(address.getPostalCode().toUpperCase());
+      address.setState(Formatter.toUpperCase(address.getState()));
+      address.setPostalCode(Formatter.toUpperCase(address.getPostalCode()));
       return address;
     }
     /**
@@ -91,9 +97,9 @@ public class AddressParser {
    * Valid only for US addresses. This method manually sets the country code to
    * ECountry.UNITED_STATES_OF_AMERICA ('US').
    * <p/>
-   * @param addressRaw
-   * @return
-   * @throws Exception if the address is null or empty
+   * @param addressRaw a free-text address String
+   * @return a formatted address WSIF component
+   * @throws Exception if the address is null or empty or fails to parse
    */
   public Address parse(String addressRaw) throws Exception {
     if (addressRaw == null || addressRaw.isEmpty()) {
@@ -113,11 +119,12 @@ public class AddressParser {
      * FCC ULS records do not provide a postal code, so not requiring one here
      * allows those addresses to be cleaned up and a postal code added later.
      */
-    Address address = buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
-    if (!address.isComplete()) {
-      throw new Exception("Address parsing could not produce a usable address");
-    }
-    return address;
+    return buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
+//    Address address = buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
+//    if (!address.isComplete()) {
+//      throw new Exception("Address parsing could not produce a usable address");
+//    }
+//    return address;
   }
 
   /**
@@ -128,12 +135,10 @@ public class AddressParser {
    * @return a non-null, well formed WSIF address
    */
   private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
-    Address address = new Address();
-    address.setStreet(formatter.toStreetAddress(parsedAddressMap));
-    address.setCity(parsedAddressMap.get(AddressComponentKey.CITY));
-    address.setState(parsedAddressMap.get(AddressComponentKey.STATE));
-    address.setPostalCode(parsedAddressMap.get(AddressComponentKey.ZIP));
-    address.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
-    return address;
+    return new Address(formatter.toStreetAddress(parsedAddressMap),
+                       parsedAddressMap.get(AddressComponentKey.CITY),
+                       parsedAddressMap.get(AddressComponentKey.STATE),
+                       parsedAddressMap.get(AddressComponentKey.ZIP),
+                       ECountry.UNITED_STATES_OF_AMERICA);
   }
 }
