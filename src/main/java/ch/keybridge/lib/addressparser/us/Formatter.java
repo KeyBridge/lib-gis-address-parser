@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Class to output well-formed, formated address strings from a parse address
  * object.
- * <p/>
+ *
  * @TODO synonym resolutions for common city names
  * @author jesse
  */
@@ -78,7 +78,7 @@ public class Formatter {
    * Convert a parsed address (map) into one a one-line address formatted
    * according to the following pattern: {name, num predir street type postdir,
    * line2, city, state, zip}
-   * <p/>
+   *
    * @param parsedAddressMap a map of parsed address values
    * @param singleLine       whether to insert a new line between the line2 and
    *                         city field (see the pattern above).
@@ -117,7 +117,7 @@ public class Formatter {
 
   /**
    * Build a formatted street address from the parsedAddress map.
-   * <p/>
+   *
    * @param parsedAddressMap a map of parsed address values
    * @return
    */
@@ -162,7 +162,7 @@ public class Formatter {
 
   /**
    * Normalize the input parsedAddr map into standardized format
-   * <p/>
+   *
    * @param parsedAddr
    * @return normalized address in a map
    */
@@ -235,7 +235,7 @@ public class Formatter {
    * Set a string to proper case - lower case with the first character
    * uppercase. Credit to
    * http://www.theeggeadventure.com/wikimedia/index.php/Java_Proper_Case
-   * <p/>
+   *
    * @param string
    * @return string formatted to proper case
    */
@@ -256,7 +256,7 @@ public class Formatter {
   /**
    * Converts all of the characters in this String to upper case using the rules
    * of the default locale.
-   * <p>
+   *
    * @param string the String
    * @return the String, converted to uppercase.
    */
@@ -267,7 +267,7 @@ public class Formatter {
   /**
    * Converts all of the characters in this String to lower case using the rules
    * of the default locale.
-   * <p>
+   *
    * @param string the String
    * @return the String, converted to lowercase.
    */
@@ -278,7 +278,7 @@ public class Formatter {
   //<editor-fold defaultstate="collapsed" desc="Private Formatting Methods">
   /**
    * Internal method to normalize a number entry
-   * <p/>
+   *
    * @param numberString number as string
    * @return
    */
@@ -314,7 +314,7 @@ public class Formatter {
 
   /**
    * Normalize the street direction word to its respective abbreviation.
-   * <p/>
+   *
    * @param directionWord
    * @return
    */
@@ -330,7 +330,7 @@ public class Formatter {
   /**
    * Normalize the street type, converting street type words (road, alley,
    * circle...) to their respective abbreviation
-   * <p/>
+   *
    * @param streetType
    * @return
    */
@@ -340,7 +340,7 @@ public class Formatter {
 
   /**
    * Get a known US state.
-   * <p/>
+   *
    * @param state
    * @return the 2-character state abbreviation
    */
@@ -350,7 +350,7 @@ public class Formatter {
 
   /**
    * Normalize line 2 of an address containing address unit plus unit number.
-   * <p/>
+   *
    * @param line2 address line 2
    * @return normalized address line 2 containing address unit plus unit number
    */
@@ -373,7 +373,7 @@ public class Formatter {
 
   /**
    * Normalize the zip code field to a 5-character zip code string
-   * <p/>
+   *
    * @param zipPlus4
    * @return 5-character zip code
    */
@@ -387,9 +387,9 @@ public class Formatter {
    * <p>
    * Get the REAL city name by checking the provided city/state pair against a
    * list of known aliases.
-   * <p/>
+   * <p>
    * This method checks the city-alias data set and is only valid for US cities.
-   * <p/>
+   *
    * @param cityAliasName
    * @param state
    * @return the real city if the input {@code city} is an recognized alias,
@@ -407,7 +407,7 @@ public class Formatter {
 
   /**
    * Expand a city name containing the prefix 'st' to the word 'saint'
-   * <p/>
+   *
    * @param cityName
    * @return
    */
@@ -419,7 +419,7 @@ public class Formatter {
 
   /**
    * Convert a spelled ordinal to the numerical equivalent. e.g. first to 1st.
-   * <p/>
+   *
    * @param ordinalWord
    * @return
    */
@@ -432,7 +432,7 @@ public class Formatter {
   /**
    * Internal string builder method to append items only if they are not null
    * and not empty.
-   * <p/>
+   *
    * @param sb     the string builder (not null)
    * @param s      the string under construction (not null)
    * @param suffix the text to be appended (OK if null)
@@ -446,7 +446,7 @@ public class Formatter {
   /**
    * Method to return a non-null object instance. This method returns the first
    * object if it is not null, otherwise it returns the second object.
-   * <p/>
+   *
    * @param <T>         the object type
    * @param candidate   the candidate object to be returned if it is not null
    * @param replacement the object to be returned if the first candidate is null

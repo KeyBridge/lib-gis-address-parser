@@ -5,7 +5,7 @@ import ch.keybridge.lib.addressparser.us.regex.RegexPatternFactory.RegexPatternG
 
 /**
  * Regex patterns to match various address block components
- * <p/>
+ *
  * @author jesse
  */
 public class AddressComponentPattern {

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * A REGEX pattern group factory builder. This class builds a REGEX pattern
  * group and populates it with the correct compound pattern.
- * <p/>
+ *
  * @author jesse
  */
 public class RegexPatternFactory {
@@ -20,7 +20,7 @@ public class RegexPatternFactory {
 
   /**
    * Compile a regex pattern into a named group pattern object.
-   * <p/>
+   *
    * @param regex the regex pattern.
    * @return
    */
@@ -60,7 +60,7 @@ public class RegexPatternFactory {
   /**
    * Method to return a non-null object instance. This method returns the first
    * object if it is not null, otherwise it returns the second object.
-   * <p/>
+   *
    * @param <T>         the object type
    * @param candidate   the candidate object to be returned if it is not null
    * @param replacement the object to be returned if the first candidate is null

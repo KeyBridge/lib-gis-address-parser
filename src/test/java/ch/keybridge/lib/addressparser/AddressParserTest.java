@@ -17,8 +17,8 @@ package ch.keybridge.lib.addressparser;
 import ch.keybridge.lib.addressparser.us.Formatter;
 import ch.keybridge.lib.addressparser.us.Parser;
 import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.lib.common.dto.GISAddress;
 import ch.keybridge.lib.common.enumerated.ECountry;
-import ch.keybridge.lib.wsif.entity.Address;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,10 +45,10 @@ public class AddressParserTest extends TestCase {
 
   public void testNoNumber() {
     try {
-      Address a = new Address("Wagner Annex", "University Park", "PA", "16802", ECountry.UNITED_STATES_OF_AMERICA);
+      GISAddress a = new GISAddress("Wagner Annex", "University Park", "PA", "16802", ECountry.UNITED_STATES_OF_AMERICA);
 //      String address = "Wagner Annex, University Park, PA 16802]";
 
-      Address parsed = addressParser.parse(a);
+      GISAddress parsed = addressParser.parse(a);
       System.out.println("  clean up no-number OK " + parsed);
     } catch (Exception ex) {
       Logger.getLogger(AddressParserTest.class.getName()).log(Level.SEVERE, null, ex);

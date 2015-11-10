@@ -4,14 +4,14 @@ import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
 
 /**
  * Class to correct the spelling of a US state.
- * <p/>
+ *
  * @author jesse
  */
 public class StateSpellingCorrector {
 
   /**
    * Attempts to substitute 2-character abbreviations for spelled state names
-   * <p/>
+   *
    * @param rawAddress
    * @return rawAddress or spelling corrected address if a state mis-spelling is
    *         found

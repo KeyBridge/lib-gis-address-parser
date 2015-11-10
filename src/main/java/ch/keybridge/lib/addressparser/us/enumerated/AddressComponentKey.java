@@ -2,7 +2,7 @@ package ch.keybridge.lib.addressparser.us.enumerated;
 
 /**
  * Enumerated list of address map keys.
- * <p/>
+ *
  * @author jesse
  */
 public enum AddressComponentKey {

@@ -7,7 +7,7 @@ import java.util.Map;
  * Pre-configured lookup mapping of defined key-value pairs. This class contains
  * key/value lookup pairs for spelled numbers, ordinals, directions, street
  * types, states, units, city names containing the prefix 'st', etc.
- * <p/>
+ *
  * @author jesse
  */
 public class EnumeratedLookup {
@@ -86,7 +86,7 @@ public class EnumeratedLookup {
   /**
    * A mapping of cities containing the prefix 'St' to the expanded name prefix
    * 'Saint'
-   * <p/>
+   *
    * @return
    */
   public static Map<String, String> getSAINT_CITY() {
@@ -125,7 +125,6 @@ public class EnumeratedLookup {
     NUMBER_ORDINAL.put("EIGHTEENTH", "18TH");
     NUMBER_ORDINAL.put("NINETEENTH", "19TH");
     NUMBER_ORDINAL.put("NINTEENTH", "19TH");
-
 
     NUMBER.put("ZERO", "0");
     NUMBER.put("ONE", "1");
@@ -207,7 +206,6 @@ public class EnumeratedLookup {
     DIRECTION.put("SOUTHWEST", "SW");
     DIRECTION.put("WEST", "W");
     DIRECTION.put("NORTHWEST", "NW");
-
 
     //7/25/08
     STREET_TYPE.put("PKWAY", "PKY");

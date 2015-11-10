@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 /**
  * Class to parse a free-text address into its components.
- * <p/>
+ *
  * @author jesse
  */
 public class Parser {
@@ -33,7 +33,7 @@ public class Parser {
       /**
        * Read and parse each line into an array of alternate city names. Lines
        * are formatted thus:
-       * <p/>
+       * <p>
        * NY -> WATKINS GLEN|CENTRAL BRIDGE|HOAG CORNERS|BEMIS HEIGHTS|ONTARIO ..
        */
       while ((line = r.readLine()) != null) {
@@ -67,7 +67,7 @@ public class Parser {
    * Parses a raw address string, this delegates to
    * {@linkplain Parser#parse(String, boolean)} with autoCorrectStateSpelling
    * set to false
-   * <p/>
+   *
    * @param rawAddr
    * @return a map of parsed address components
    */
@@ -77,7 +77,7 @@ public class Parser {
 
   /**
    * Parses a raw address string
-   * <p/>
+   *
    * @param rawAddr
    * @param autoCorrectStateSpelling swith on/off auto correction on state
    *                                 mis-spelling
@@ -103,7 +103,7 @@ public class Parser {
       String splitRawAddr = null;
       String line12sep = addressComponentMap.get(AddressComponentKey.TLID);//HACK!
       if (!line12sep.contains(",")
-        && (splitRawAddr = designatorConfusingCitiesCorrection(addressComponentMap, rawAddr)) != null) {
+          && (splitRawAddr = designatorConfusingCitiesCorrection(addressComponentMap, rawAddr)) != null) {
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if (m.matches()) {
           addressComponentMap = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
@@ -142,7 +142,7 @@ public class Parser {
   //<editor-fold defaultstate="collapsed" desc="Private Parsing Methods">
   /**
    * Remove extra white space from within the address: extra spaces, etc.
-   * <p/>
+   *
    * @param rawAddrString
    * @return
    */
@@ -154,13 +154,13 @@ public class Parser {
   private void postProcess(Map<AddressComponentKey, String> m) {
     //these are (temporary?) hacks...
     if (m.get(AddressComponentKey.TYPE) == null && m.get(AddressComponentKey.STREET) != null
-      && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
+        && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
       m.put(AddressComponentKey.TYPE, m.get(AddressComponentKey.STREET));
       m.put(AddressComponentKey.STREET, m.get(AddressComponentKey.PREDIR));
       m.put(AddressComponentKey.PREDIR, null);
     }
     if (m.get(AddressComponentKey.STATE) == null && m.get(AddressComponentKey.LINE2) != null
-      && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
+        && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
       m.put(AddressComponentKey.STATE, m.get(AddressComponentKey.LINE2));
       m.put(AddressComponentKey.LINE2, null);
     }

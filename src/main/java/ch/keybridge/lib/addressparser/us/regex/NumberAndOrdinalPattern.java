@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Some common Regex patterns used for address parsing. These are not for
  * validating English: some common spelling mistakes are intentionally included
- * <p/>
+ *
  * @author jesse
  */
 public class NumberAndOrdinalPattern {
@@ -55,7 +55,7 @@ public class NumberAndOrdinalPattern {
     public static String getCountryIso2Regex() {
       /**
        * Get the list of countries as a HashMap of Key:CountryName, Value:Iso2
-       * <p/>
+       *
        * @return
        */
       Map<String, String> countryMap = new HashMap<>();
@@ -75,11 +75,11 @@ public class NumberAndOrdinalPattern {
 
     /**
      * Join the collection of strings on the indicated separator.
-     * <p/>
+     * <p>
      * The SafeVarargs annotation asserts that the body of the annotated method
      * or constructor does not perform potentially unsafe operations on its
      * varargs parameter.
-     * <p/>
+     *
      * @param separator   the separator string
      * @param collections the collection(s) of Strings
      * @return
@@ -93,11 +93,11 @@ public class NumberAndOrdinalPattern {
       String[] set = new String[union.size()];
       List<String> lst = Arrays.asList(union.toArray(set));
       Collections.sort(lst, new Comparator<String>() {
-        @Override
-        public int compare(String o1, String o2) {
-          return Integer.valueOf(o2.length()).compareTo(o1.length());
-        }
-      });
+                 @Override
+                 public int compare(String o1, String o2) {
+                   return Integer.valueOf(o2.length()).compareTo(o1.length());
+                 }
+               });
       StringBuilder sb = new StringBuilder();
       boolean first = true;
       for (String string : lst) {
