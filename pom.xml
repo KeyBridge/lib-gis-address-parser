@@ -56,8 +56,8 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>keybridge-common</artifactId>
-      <version>1.3.5</version>
+      <artifactId>gis-dto</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
 

@@ -18,8 +18,7 @@ package ch.keybridge.lib.addressparser;
 import ch.keybridge.lib.addressparser.us.Formatter;
 import ch.keybridge.lib.addressparser.us.Parser;
 import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.lib.common.dto.GISAddress;
-import ch.keybridge.lib.common.enumerated.ECountry;
+import ch.keybridge.lib.gis.dto.GISAddress;
 import java.util.Map;
 
 /**
@@ -55,7 +54,7 @@ public class AddressParser {
      * If the country is not set the force it to USA.
      */
     if (address.getCountry() == null) {
-      address.setCountry(ECountry.UNITED_STATES_OF_AMERICA);
+      address.setCountry("US");
     }
     /**
      * Do not parse non-US addresses or PO BOX addresses or street addresses
@@ -63,9 +62,9 @@ public class AddressParser {
      * <p>
      * Instead just try to clean up and reformat the address components.
      */
-    if (!ECountry.UNITED_STATES_OF_AMERICA.equals(address.getCountry())
-        || address.getStreet().toUpperCase().contains("BOX")
-        || !address.getStreet().matches("\\d")) {
+    if ("US".equalsIgnoreCase(address.getCountry())
+            || address.getStreet().toUpperCase().contains("BOX")
+            || !address.getStreet().matches("\\d")) {
       address.setStreet(Formatter.toProperCase(address.getStreet().
               toUpperCase().
               replace("PO ", "POST OFFICE ").
@@ -138,6 +137,6 @@ public class AddressParser {
                           parsedGISAddressMap.get(AddressComponentKey.CITY),
                           parsedGISAddressMap.get(AddressComponentKey.STATE),
                           parsedGISAddressMap.get(AddressComponentKey.ZIP),
-                          ECountry.UNITED_STATES_OF_AMERICA);
+                          "US");
   }
 }
