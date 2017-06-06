@@ -43,7 +43,7 @@ public class AddressParser {
    * @return a well-formed, formatted WSIF address object
    * @throws Exception if the address is null or empty
    */
-  public GISAddress parse(GISAddress address) throws Exception {
+  public GISAddress parseGISAddress(GISAddress address) throws Exception {
     /**
      * Validate that the address has a minimum configuration.
      */
@@ -97,7 +97,8 @@ public class AddressParser {
    *
    * @param addressRaw a free-text address String
    * @return a formatted address WSIF component
-   * @throws Exception if the address is null or empty or fails to parse
+   * @throws Exception if the address is null or empty or fails to
+   *                   parseGISAddress
    */
   public GISAddress parse(String addressRaw) throws Exception {
     if (addressRaw == null || addressRaw.isEmpty()) {
@@ -118,7 +119,7 @@ public class AddressParser {
      * allows those addresses to be cleaned up and a postal code added later.
      */
     return buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
-//    GISAddress address = buildGISAddress(formatter.normalizeParsedGISAddress(parser.parse(addressRaw)));
+//    GISAddress address = buildGISAddress(formatter.normalizeParsedGISAddress(parser.parseGISAddress(addressRaw)));
 //    if (!address.isComplete()) {
 //      throw new Exception("GISAddress parsing could not produce a usable address");
 //    }

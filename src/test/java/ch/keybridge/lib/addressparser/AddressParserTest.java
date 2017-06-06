@@ -48,7 +48,7 @@ public class AddressParserTest extends TestCase {
       GISAddress a = new GISAddress("Wagner Annex", "University Park", "PA", "16802", ECountry.UNITED_STATES_OF_AMERICA.getIso2());
 //      String address = "Wagner Annex, University Park, PA 16802]";
 
-      GISAddress parsed = addressParser.parse(a);
+      GISAddress parsed = addressParser.parseGISAddress(a);
       System.out.println("  clean up no-number OK " + parsed);
     } catch (Exception ex) {
       Logger.getLogger(AddressParserTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,7 +56,7 @@ public class AddressParserTest extends TestCase {
     }
   }
 
-  public void testParse() {
+  public void testParseGISAddress() {
     try {
       Map<AddressComponentKey, String> parseMap = parser.parse(addressString);
       assertNotNull(parseMap);
