@@ -1,12 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>keybridge.lib</groupId>
-  <artifactId>address-parser</artifactId>
-  <version>0.9.4</version>
+  <artifactId>lib-gis-address-parser</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
-  <name>lib-address-parser</name>
+
+  <parent>
+    <groupId>keybridge.lib</groupId>
+    <artifactId>gis</artifactId>
+    <version>2.0.0</version>
+  </parent>
+
+  <name>lib-gis-address-parser</name>
   <description>Utility class to parse and standardize address information.
 
     Address standardization is the process that takes an address
@@ -21,67 +27,20 @@
     v0.9.2 - replace WSIF address with commons GISAddress
     v0.9.3 - refresh dependencies to latest
     v0.9.4 - make more self contained
+
+    History: v1.x branch, depends upon GIS parent  v2.x
+    v1.0.0 - refactor using Address DTO (replaces GISAddress)
+
   </description>
-  <organization>
-    <name>Key Bridge</name>
-    <url>http://keybridge.ch</url>
-  </organization>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <additionalparam>-Xdoclint:none</additionalparam>
-  </properties>
-
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
-
-      <!--Apache Maven GPG Plugin-->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+  <properties>  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>gis-dto</artifactId>
-      <version>1.1.1</version>
     </dependency>
   </dependencies>
 
-  <distributionManagement>
-    <repository>
-      <id>${repository.name}</id>
-      <url>${repository.url}</url>
-    </repository>
-  </distributionManagement>
 
 </project>

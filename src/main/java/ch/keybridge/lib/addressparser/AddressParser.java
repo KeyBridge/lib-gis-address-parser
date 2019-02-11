@@ -18,7 +18,7 @@ package ch.keybridge.lib.addressparser;
 import ch.keybridge.lib.addressparser.us.Formatter;
 import ch.keybridge.lib.addressparser.us.Parser;
 import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.lib.gis.dto.GISAddress;
+import ch.keybridge.lib.gis.dto.Address;
 import java.util.Map;
 
 /**
@@ -43,7 +43,7 @@ public class AddressParser {
    * @return a well-formed, formatted WSIF address object
    * @throws Exception if the address is null or empty
    */
-  public GISAddress parseGISAddress(GISAddress address) throws Exception {
+  public Address parseAddress(Address address) throws Exception {
     /**
      * Validate that the address has a minimum configuration.
      */
@@ -63,13 +63,13 @@ public class AddressParser {
      * Instead just try to clean up and reformat the address components.
      */
     if ("US".equalsIgnoreCase(address.getCountry())
-            || address.getStreet().toUpperCase().contains("BOX")
-            || !address.getStreet().matches("\\d")) {
+      || address.getStreet().toUpperCase().contains("BOX")
+      || !address.getStreet().matches("\\d")) {
       address.setStreet(Formatter.toProperCase(address.getStreet().
-              toUpperCase().
-              replace("PO ", "POST OFFICE ").
-              replace("P.O.", "POST OFFICE").
-              replace("P. O.", "POST OFFICE")).trim());
+        toUpperCase().
+        replace("PO ", "POST OFFICE ").
+        replace("P.O.", "POST OFFICE").
+        replace("P. O.", "POST OFFICE")).trim());
       address.setCity(Formatter.toProperCase(address.getCity()));
       address.setCounty(Formatter.toProperCase(address.getCounty()));
       address.setState(Formatter.toUpperCase(address.getState()));
@@ -79,7 +79,7 @@ public class AddressParser {
     /**
      * The address is in the United States and is not a P.O. Box.
      */
-    GISAddress addressClean = parse(address.format());
+    Address addressClean = parse(address.format());
     /**
      * Dump NULL street address fields.
      */
@@ -97,10 +97,9 @@ public class AddressParser {
    *
    * @param addressRaw a free-text address String
    * @return a formatted address WSIF component
-   * @throws Exception if the address is null or empty or fails to
-   *                   parseGISAddress
+   * @throws Exception if the address is null or empty or fails to parseAddress
    */
-  public GISAddress parse(String addressRaw) throws Exception {
+  public Address parse(String addressRaw) throws Exception {
     if (addressRaw == null || addressRaw.isEmpty()) {
       throw new Exception("Provided raw address is empty or null");
     }
@@ -119,9 +118,9 @@ public class AddressParser {
      * allows those addresses to be cleaned up and a postal code added later.
      */
     return buildAddress(formatter.normalizeParsedAddress(parser.parse(addressRaw)));
-//    GISAddress address = buildGISAddress(formatter.normalizeParsedGISAddress(parser.parseGISAddress(addressRaw)));
+//    Address address = buildAddress(formatter.normalizeParsedAddress(parser.parseAddress(addressRaw)));
 //    if (!address.isComplete()) {
-//      throw new Exception("GISAddress parsing could not produce a usable address");
+//      throw new Exception("Address parsing could not produce a usable address");
 //    }
 //    return address;
   }
@@ -130,14 +129,14 @@ public class AddressParser {
    * Internal method to build a well-formed WSIF address from a parsed address
    * map.
    *
-   * @param parsedGISAddressMap
+   * @param parsedAddressMap
    * @return a non-null, well formed WSIF address
    */
-  private GISAddress buildAddress(Map<AddressComponentKey, String> parsedGISAddressMap) {
-    return new GISAddress(formatter.toStreetAddress(parsedGISAddressMap),
-                          parsedGISAddressMap.get(AddressComponentKey.CITY),
-                          parsedGISAddressMap.get(AddressComponentKey.STATE),
-                          parsedGISAddressMap.get(AddressComponentKey.ZIP),
-                          "US");
+  private Address buildAddress(Map<AddressComponentKey, String> parsedAddressMap) {
+    return Address.getInstance(formatter.toStreetAddress(parsedAddressMap),
+                               parsedAddressMap.get(AddressComponentKey.CITY),
+                               parsedAddressMap.get(AddressComponentKey.STATE),
+                               parsedAddressMap.get(AddressComponentKey.ZIP),
+                               "US");
   }
 }
