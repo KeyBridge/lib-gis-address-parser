@@ -13,11 +13,11 @@
  *   A copy of Caulfield's either License Agreement can be obtained on request
  *   by email from: info@caufield.org.
  */
-package ch.keybridge.lib.addressparser;
+package ch.keybridge.gis.addressparser;
 
-import ch.keybridge.lib.addressparser.us.Formatter;
-import ch.keybridge.lib.addressparser.us.Parser;
-import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.gis.addressparser.us.Formatter;
+import ch.keybridge.gis.addressparser.us.Parser;
+import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
 import ch.keybridge.lib.gis.dto.Address;
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package ch.keybridge.lib.addressparser.us.regex;
+package ch.keybridge.gis.addressparser.us.regex;
 
-import ch.keybridge.lib.addressparser.us.enumerated.ECountry;
-import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
+import ch.keybridge.gis.addressparser.us.enumerated.ECountry;
+import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedLookup;
 import java.util.*;
 
 /**

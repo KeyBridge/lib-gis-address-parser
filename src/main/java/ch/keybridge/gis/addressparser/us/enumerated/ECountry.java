@@ -14,7 +14,7 @@
  *  11/13 - update to separate Serbia and Montenegro plus Sudan and South Sudan
  *          also use simple names for Libya, Laos and Taiwan
  */
-package ch.keybridge.lib.addressparser.us.enumerated;
+package ch.keybridge.gis.addressparser.us.enumerated;
 
 import java.util.Arrays;
 import java.util.List;

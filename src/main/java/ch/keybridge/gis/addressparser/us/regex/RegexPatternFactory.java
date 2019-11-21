@@ -1,4 +1,4 @@
-package ch.keybridge.lib.addressparser.us.regex;
+package ch.keybridge.gis.addressparser.us.regex;
 
 import java.util.HashMap;
 import java.util.Map;

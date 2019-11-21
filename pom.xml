@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>keybridge.lib</groupId>
   <artifactId>gis-address-parser</artifactId>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <packaging>jar</packaging>
 
   <parent>
@@ -28,8 +28,10 @@
     v0.9.3 - refresh dependencies to latest
     v0.9.4 - make more self contained
 
-    History: v1.x branch, depends upon GIS parent  v2.x
-    v1.0.0 - refactor using Address DTO (replaces GISAddress)
+    v1.0.0 -  depends upon GIS parent  v2.x
+    - refactor using Address DTO (replaces GISAddress)
+
+    v2.0.0 - refactor all to 'ch.keybridge.gis' base package
 
   </description>
 

@@ -1,11 +1,11 @@
-package ch.keybridge.lib.addressparser.us;
+package ch.keybridge.gis.addressparser.us;
 
-import ch.keybridge.lib.addressparser.us.Formatter;
-import ch.keybridge.lib.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.lib.addressparser.us.enumerated.EnumeratedLookup;
-import ch.keybridge.lib.addressparser.us.regex.AddressComponentPattern;
-import ch.keybridge.lib.addressparser.us.regex.NumberAndOrdinalPattern;
-import ch.keybridge.lib.addressparser.us.regex.RegexPatternFactory;
+import ch.keybridge.gis.addressparser.us.Formatter;
+import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
+import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedLookup;
+import ch.keybridge.gis.addressparser.us.regex.AddressComponentPattern;
+import ch.keybridge.gis.addressparser.us.regex.NumberAndOrdinalPattern;
+import ch.keybridge.gis.addressparser.us.regex.RegexPatternFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

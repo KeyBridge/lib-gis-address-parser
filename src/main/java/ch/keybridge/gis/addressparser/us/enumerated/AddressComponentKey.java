@@ -1,4 +1,4 @@
-package ch.keybridge.lib.addressparser.us.enumerated;
+package ch.keybridge.gis.addressparser.us.enumerated;
 
 /**
  * Enumerated list of address map keys.

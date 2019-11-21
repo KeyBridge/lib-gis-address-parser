@@ -1,7 +1,7 @@
-package ch.keybridge.lib.addressparser.us.regex;
+package ch.keybridge.gis.addressparser.us.regex;
 
-import static ch.keybridge.lib.addressparser.us.regex.NumberAndOrdinalPattern.*;
-import ch.keybridge.lib.addressparser.us.regex.RegexPatternFactory.RegexPatternGroup;
+import static ch.keybridge.gis.addressparser.us.regex.NumberAndOrdinalPattern.*;
+import ch.keybridge.gis.addressparser.us.regex.RegexPatternFactory.RegexPatternGroup;
 
 /**
  * Regex patterns to match various address block components

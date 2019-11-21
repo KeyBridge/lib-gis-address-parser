@@ -1,4 +1,4 @@
-package ch.keybridge.lib.addressparser.us.enumerated;
+package ch.keybridge.gis.addressparser.us.enumerated;
 
 import java.util.HashMap;
 import java.util.Map;
