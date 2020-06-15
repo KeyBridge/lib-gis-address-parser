@@ -34,20 +34,17 @@ the same license.
 
 
 ## History:
-  09/06/12 - version 1.0 committed
-             parse raw, formatted output, WSIF interchange all working
-
-  v0.9.0 - reorganize into maven library; works fine most all of the time
-  v0.9.1 - relax error conditions
-  v0.9.2 - replace WSIF address with commons GISAddress
-  v0.9.3 - refresh dependencies to latest
-  v0.9.4 - make more self contained
-
-  v1.0.0 -  depends upon GIS parent  v2.x
-  - refactor using Address DTO (replaces GISAddress)
-
-  v2.0.0 - refactor all to 'ch.keybridge.gis' base package
-  - use local Address DTO, remove fleeting dependency on lib-gis-dto
+    09/06/12 - version 1.0 committed
+               _parse raw, formatted output, WSIF interchange all working_
+    v0.9.0 - reorganize into maven library; works fine most all of the time
+    v0.9.1 - relax error conditions
+    v0.9.2 - replace WSIF address with commons GISAddress
+    v0.9.3 - refresh dependencies to latest
+    v0.9.4 - make more self contained
+    v1.0.0 -  depends upon GIS parent  v2.x
+    - refactor using Address DTO (replaces GISAddress)
+    v2.0.0 - refactor all to 'ch.keybridge.gis' base package
+    - use local Address DTO, remove fleeting dependency on lib-gis-dto
 
 
 ## References:
