@@ -52,8 +52,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author jesse
  */
 @XmlEnum
-@XmlType(name = "ECountry")
-public enum ECountry {
+@XmlType(name = "EnumeratedCountry")
+public enum EnumeratedCountry {
 
   UNITED_STATES_OF_AMERICA("USA", "US", "United States of America"),
   AFGHANISTAN("AFG", "AF", "Afghanistan"),
@@ -341,7 +341,7 @@ public enum ECountry {
    */
   private final String name_en;
 
-  private ECountry(String iso3, String iso2, String name) {
+  private EnumeratedCountry(String iso3, String iso2, String name) {
     this.iso3 = iso3;
     this.iso2 = iso2;
     this.name_en = name;
@@ -379,8 +379,8 @@ public enum ECountry {
    * @return the matched ECountry instance
    * @throws IllegalArgumentException if no country could be matched
    */
-  public static ECountry fromIso2(String iso2Code) throws IllegalArgumentException {
-    for (ECountry country : ECountry.values()) {
+  public static EnumeratedCountry fromIso2(String iso2Code) throws IllegalArgumentException {
+    for (EnumeratedCountry country : EnumeratedCountry.values()) {
       if (country.getIso2().equalsIgnoreCase(iso2Code)) {
         return country;
       }
@@ -397,8 +397,8 @@ public enum ECountry {
    * @return the matched ECountry instance
    * @throws IllegalArgumentException if no country could be matched
    */
-  public static ECountry fromIso3(String iso3Code) throws IllegalArgumentException {
-    for (ECountry country : ECountry.values()) {
+  public static EnumeratedCountry fromIso3(String iso3Code) throws IllegalArgumentException {
+    for (EnumeratedCountry country : EnumeratedCountry.values()) {
       if (country.getIso3().equalsIgnoreCase(iso3Code)) {
         return country;
       }
@@ -420,8 +420,8 @@ public enum ECountry {
    * @return the matched ECountry instance
    * @throws IllegalArgumentException if no country could be matched
    */
-  public static ECountry fromName(String name) throws IllegalArgumentException {
-    for (ECountry country : ECountry.values()) {
+  public static EnumeratedCountry fromName(String name) throws IllegalArgumentException {
+    for (EnumeratedCountry country : EnumeratedCountry.values()) {
       if (country.getName_en().toLowerCase().contains(name.toLowerCase())) {
         return country;
       }
@@ -440,13 +440,13 @@ public enum ECountry {
    * @return the matched ECountry instance
    * @throws IllegalArgumentException if no country could be matched
    */
-  public static ECountry find(String string) throws IllegalArgumentException {
-    for (ECountry country : ECountry.values()) {
+  public static EnumeratedCountry find(String string) throws IllegalArgumentException {
+    for (EnumeratedCountry country : EnumeratedCountry.values()) {
       if (country.getIso2().equalsIgnoreCase(string)
-              || country.getIso3().equalsIgnoreCase(string)
-              || country.getName_en().equalsIgnoreCase(string)
-              || country.getName_en().toLowerCase().contains(string)
-              || country.name().equalsIgnoreCase(string)) {
+        || country.getIso3().equalsIgnoreCase(string)
+        || country.getName_en().equalsIgnoreCase(string)
+        || country.getName_en().toLowerCase().contains(string)
+        || country.name().equalsIgnoreCase(string)) {
         return country;
       }
     }
@@ -469,7 +469,7 @@ public enum ECountry {
    *
    * @return a non-null ArrayList
    */
-  public static List<ECountry> asList() {
-    return Arrays.asList(ECountry.values());
+  public static List<EnumeratedCountry> asList() {
+    return Arrays.asList(EnumeratedCountry.values());
   }
 }
