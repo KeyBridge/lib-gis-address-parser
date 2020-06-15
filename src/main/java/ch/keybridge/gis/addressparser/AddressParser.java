@@ -18,10 +18,18 @@ package ch.keybridge.gis.addressparser;
 import ch.keybridge.gis.addressparser.us.Formatter;
 import ch.keybridge.gis.addressparser.us.Parser;
 import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.lib.gis.dto.Address;
+import ch.keybridge.gis.dto.Address;
 import java.util.Map;
 
 /**
+ * Utility class to parse and standardize address information.
+ * <p>
+ * Address standardization is the process that takes an address and converts it
+ * to a standard format by analyzing the several components. Standardization is
+ * not correction ! Standardization is based on syntax correction
+ * (dictionnaries, spellchecking, synonyms), while correction is based on postal
+ * reference data : correction checks if each element exists and if the
+ * combination is correct.
  *
  * @author jesse
  */
@@ -36,7 +44,7 @@ public class AddressParser {
   }
 
   /**
-   * Clean up a WSIF address by parsing the contents and re-populating the WSIF
+   * Clean up a address by parsing the contents and re-populating the WSIF
    * address fields. Returns a new object - does not edit the passed object.
    *
    * @param address a raw, unformatted WSIF address object
@@ -104,8 +112,7 @@ public class AddressParser {
       throw new Exception("Provided raw address is empty or null");
     }
     /**
-     * Build a WSIF address based upon the normalized, parsed address
-     * components.
+     * Build a address based upon the normalized, parsed address components.
      * <p>
      * If all the address components cannot be parsed then discard the address.
      * This is because the parser is somewhat fragile and may incorrectly assign

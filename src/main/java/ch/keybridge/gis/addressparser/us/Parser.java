@@ -103,7 +103,7 @@ public class Parser {
       String splitRawAddr = null;
       String line12sep = addressComponentMap.get(AddressComponentKey.TLID);//HACK!
       if (!line12sep.contains(",")
-          && (splitRawAddr = designatorConfusingCitiesCorrection(addressComponentMap, rawAddr)) != null) {
+        && (splitRawAddr = designatorConfusingCitiesCorrection(addressComponentMap, rawAddr)) != null) {
         m = STREET_ADDRESS.matcher(splitRawAddr);
         if (m.matches()) {
           addressComponentMap = getAddrMap(m, AddressComponentPattern.P_STREET_ADDRESS.getNamedGroupMap());
@@ -154,13 +154,13 @@ public class Parser {
   private void postProcess(Map<AddressComponentKey, String> m) {
     //these are (temporary?) hacks...
     if (m.get(AddressComponentKey.TYPE) == null && m.get(AddressComponentKey.STREET) != null
-        && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
+      && Pattern.compile(NumberAndOrdinalPattern.STREET_DESIGNATOR).matcher(m.get(AddressComponentKey.STREET).toUpperCase()).matches()) {
       m.put(AddressComponentKey.TYPE, m.get(AddressComponentKey.STREET));
       m.put(AddressComponentKey.STREET, m.get(AddressComponentKey.PREDIR));
       m.put(AddressComponentKey.PREDIR, null);
     }
     if (m.get(AddressComponentKey.STATE) == null && m.get(AddressComponentKey.LINE2) != null
-        && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
+      && Pattern.compile(NumberAndOrdinalPattern.US_STATES).matcher(m.get(AddressComponentKey.LINE2).toUpperCase()).matches()) {
       m.put(AddressComponentKey.STATE, m.get(AddressComponentKey.LINE2));
       m.put(AddressComponentKey.LINE2, null);
     }

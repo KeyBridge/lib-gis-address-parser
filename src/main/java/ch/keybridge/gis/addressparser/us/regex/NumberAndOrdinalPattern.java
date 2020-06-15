@@ -1,6 +1,6 @@
 package ch.keybridge.gis.addressparser.us.regex;
 
-import ch.keybridge.gis.addressparser.us.enumerated.ECountry;
+import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedCountry;
 import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedLookup;
 import java.util.*;
 
@@ -59,7 +59,7 @@ public class NumberAndOrdinalPattern {
        * @return
        */
       Map<String, String> countryMap = new HashMap<>();
-      for (ECountry country : ECountry.values()) {
+      for (EnumeratedCountry country : EnumeratedCountry.values()) {
         countryMap.put(country.getIso2(), country.getName_en());
       }
       return join("|", countryMap.values(), countryMap.keySet());

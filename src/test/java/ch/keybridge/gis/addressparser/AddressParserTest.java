@@ -17,35 +17,39 @@ package ch.keybridge.gis.addressparser;
 import ch.keybridge.gis.addressparser.us.Formatter;
 import ch.keybridge.gis.addressparser.us.Parser;
 import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.gis.addressparser.us.enumerated.ECountry;
-import ch.keybridge.lib.gis.dto.Address;
+import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedCountry;
+import ch.keybridge.gis.dto.Address;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  *
  * @author Jesse Caulfield <jesse@caulfield.org>
  */
-public class AddressParserTest extends TestCase {
+public class AddressParserTest {
 
-  private static String addressString = "8000 Towers Crescent Drive, Suite 1100, McLean, VA  22102";
+  private static String addressString = "1600 Tysons Blvd., Suite 1500, McLean, VA  22102";
 
   private final Formatter formatter;
   private final Parser parser;
   private final AddressParser addressParser;
 
-  public AddressParserTest(String testName) {
-    super(testName);
+  public AddressParserTest() {
     formatter = new Formatter();
     parser = new Parser();
     addressParser = new AddressParser();
   }
 
+  @Test
   public void testNoNumber() {
     try {
-      Address a = Address.getInstance("Wagner Annex", "University Park", "PA", "16802", ECountry.UNITED_STATES_OF_AMERICA.getIso2());
+      Address a = Address.getInstance("Wagner Annex", "University Park", "PA", "16802", EnumeratedCountry.UNITED_STATES_OF_AMERICA.getIso2());
 //      String address = "Wagner Annex, University Park, PA 16802]";
 
       Address parsed = addressParser.parseAddress(a);
@@ -56,6 +60,7 @@ public class AddressParserTest extends TestCase {
     }
   }
 
+  @Test
   public void testParseAddress() {
     try {
       Map<AddressComponentKey, String> parseMap = parser.parse(addressString);
@@ -70,6 +75,7 @@ public class AddressParserTest extends TestCase {
     }
   }
 
+  @Test
   public void testNormalizer() {
     try {
       Map<AddressComponentKey, String> parseMap = parser.parse(addressString);
@@ -88,6 +94,7 @@ public class AddressParserTest extends TestCase {
     }
   }
 
+  @Test
   public void testFormatter() {
     try {
       Map<AddressComponentKey, String> outMap = parser.parse(addressString);
