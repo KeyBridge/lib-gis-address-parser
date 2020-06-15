@@ -92,12 +92,7 @@ public class NumberAndOrdinalPattern {
       }
       String[] set = new String[union.size()];
       List<String> lst = Arrays.asList(union.toArray(set));
-      Collections.sort(lst, new Comparator<String>() {
-                 @Override
-                 public int compare(String o1, String o2) {
-                   return Integer.valueOf(o2.length()).compareTo(o1.length());
-                 }
-               });
+      Collections.sort(lst, (String o1, String o2) -> Integer.valueOf(o2.length()).compareTo(o1.length()));
       StringBuilder sb = new StringBuilder();
       boolean first = true;
       for (String string : lst) {
