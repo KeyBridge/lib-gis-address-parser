@@ -53,14 +53,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>gis-dto</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-  </dependencies>
-
+ 
 
 </project>

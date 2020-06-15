@@ -18,7 +18,6 @@ import ch.keybridge.gis.addressparser.us.Formatter;
 import ch.keybridge.gis.addressparser.us.Parser;
 import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
 import ch.keybridge.gis.addressparser.us.enumerated.EnumeratedCountry;
-import ch.keybridge.gis.dto.Address;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -18,7 +18,6 @@ package ch.keybridge.gis.addressparser;
 import ch.keybridge.gis.addressparser.us.Formatter;
 import ch.keybridge.gis.addressparser.us.Parser;
 import ch.keybridge.gis.addressparser.us.enumerated.AddressComponentKey;
-import ch.keybridge.gis.dto.Address;
 import java.util.Map;
 
 /**
