@@ -48,6 +48,8 @@ public class EnumeratedLookup {
   /**
    * A mapping of direction words (north, south ...) to their abbreviation (N,
    * S, ....)
+   *
+   * @return mapping of direction words
    */
   public static Map<String, String> getDIRECTION() {
     return DIRECTION;
@@ -56,6 +58,8 @@ public class EnumeratedLookup {
   /**
    * A mapping of street type words (road, alley, circle...) to their respective
    * abbreviation
+   *
+   * @return mapping of street type words
    */
   public static Map<String, String> getSTREET_TYPE() {
     return STREET_TYPE;
@@ -63,6 +67,8 @@ public class EnumeratedLookup {
 
   /**
    * A mapping of US state names to their respective iso3166 (iso2) abbreviation
+   *
+   * @return mapping of US state names
    */
   public static Map<String, String> getSTATE() {
     return STATE;
@@ -71,6 +77,8 @@ public class EnumeratedLookup {
   /**
    * A mapping of living unit words (apartment, suite, etc.) to their respective
    * abbreviation
+   *
+   * @return mapping of living unit words
    */
   public static Map<String, String> getADDRESS_UNIT() {
     return ADDRESS_UNIT;
@@ -78,6 +86,8 @@ public class EnumeratedLookup {
 
   /**
    * A mapping of spelled numbers to their integer value
+   *
+   * @return mapping of spelled numbers
    */
   public static Map<String, String> getNUMBER() {
     return NUMBER;
@@ -87,7 +97,7 @@ public class EnumeratedLookup {
    * A mapping of cities containing the prefix 'St' to the expanded name prefix
    * 'Saint'
    *
-   * @return
+   * @return mapping of cities
    */
   public static Map<String, String> getSAINT_CITY() {
     return SAINT_CITY;
@@ -95,6 +105,8 @@ public class EnumeratedLookup {
 
   /**
    * A mapping of spelled numbers to their integer value
+   *
+   * @return spelled numbers to their integer value
    */
   public static Map<String, String> getNUMBER_ORDINAL() {
     return NUMBER_ORDINAL;
