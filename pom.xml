@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>keybridge.lib</groupId>
   <artifactId>gis-address-parser</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
   <packaging>jar</packaging>
 
   <parent>
     <groupId>keybridge.lib</groupId>
     <artifactId>geotools</artifactId>
-    <version>1.20.2</version>
+    <version>1.20.5</version>
   </parent>
 
   <name>lib-gis-address-parser</name>
@@ -33,7 +33,7 @@
 
     v2.0.0 - refactor all to 'ch.keybridge.gis' base package
     - use local Address DTO, remove fleeting dependency on lib-gis-dto
-
+    v2.0.1 - bump parent to v1.20.5
   </description>
 
   <properties>
